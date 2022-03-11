@@ -1,0 +1,6 @@
+test/**
+lib/**
+types/**
+node_modules
+dist
+*.md
