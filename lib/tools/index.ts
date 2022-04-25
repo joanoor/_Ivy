@@ -1,5 +1,4 @@
 export * from './autoImport'
-export * from './dom'
 export * from './is'
 export * from './scrollToTop'
 export * from './validType'

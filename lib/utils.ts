@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { isArray, isObject } from './tools'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 
@@ -15,7 +16,7 @@ interface Console<T = string> {
   success: (str: T) => void
 }
 
-export const _console: Console<string> = {
+const _console: Console<string> = {
   log(str) {
     console.log(`%c${str}`, 'background:#303133;color:#fff;fontSize:14px')
   },
@@ -31,24 +32,9 @@ export const _console: Console<string> = {
 }
 
 /**
- * 从输入的内容中获取行政区域
- * @param val
- * @example
- * getRegion('淮南市人民检察院') 返回 '淮南市'
- */
-export const getRegion = (val: string): string => {
-  const tmp = val.match(/.+?(省|市|自治区|自治州|县|区)/g)
-  if (tmp && tmp.length > 0) {
-    return tmp[tmp.length - 1]
-  } else {
-    return ''
-  }
-}
-
-/**
  * 以cdn形式引入插件，例如可以cdn引入echarts，这样可以显著减少打包的体积
  */
-export const loadScript = (scriptURL: string, host: string) => {
+const loadScript = (scriptURL: string, host: string) => {
   new Promise((resolve, reject) => {
     const head = document.head
     const dom = head.querySelector(`[src*="${host}"]`)
@@ -70,42 +56,67 @@ export const loadScript = (scriptURL: string, host: string) => {
  * @param func1
  * @param delayTime 延迟执行时间
  */
-export const immediateSetInterval = (func1: () => void, delayTime: number) => {
-  setInterval(
+const immediateSetInterval = (func1: () => void, delayTime: number) => {
+  const timer = setInterval(
     (function callback(func2: () => void) {
       func2()
       return callback
     })(func1),
     delayTime
   )
+  return timer
 }
 
 /**
  * 返回值的类型
  * @param value 任意值（经过toLowerCase处理）
  */
-export const getTypeOfValue = (value: unknown) =>
+const getTypeOfValue = (value: unknown) =>
   Object.prototype.toString.call(value).slice(8, -1).toLocaleLowerCase()
 
-export const getPropValue = <T, K extends keyof T>(obj: T, key: K) => {
+const getPropValue = <T, K extends keyof T>(obj: T, key: K) => {
   return obj[key]
 }
 
 /**
- * 深度合并（若src中存在的键的值会被target覆盖，若src不存在，则会取target中的值）
- * @param src
+ * 深度合并
  * @param target
+ * @param src
  */
-export const deepMerge = <T extends object>(src: T, target: any = {}): T => {
-  let key: string
-  for (key in target) {
-    src[key] =
-      getTypeOfValue(src[key]) === 'object'
-        ? deepMerge(src[key], target[key])
-        : (src[key] = target[key])
+const deepMerge = <T extends object>(target: T, src: any = {}): T => {
+  for (let key in src) {
+    target[key] =
+      getTypeOfValue(target[key]) === 'object'
+        ? deepMerge(target[key], src[key])
+        : (target[key] = src[key])
   }
-  return src
+  return target
 }
+
+/**
+ * Merge the contents of two or more objects together into the first object.
+ * 暂时没有用上
+ */
+export const merge = <T extends object>(target: T, ...src: any[]) => {
+  let acc: unknown
+  let copy: unknown
+  let clone: object
+  for (let i = 0; i < src.length; i++) {
+    for (let key in src[i]) {
+      acc = target[key]
+      copy = src[i][key]
+      if (target === copy) continue
+      if (copy && isObject(copy)) {
+        clone = acc && isArray(acc) ? acc : {}
+        target[key] = merge(clone, copy)
+      } else if (copy !== undefined) {
+        target[key] = copy
+      }
+    }
+  }
+  return target
+}
+
 /*************下面的代码是封装promise请求*************/
 const awaitWrap = (promise: Promise<Result<any>>) =>
   promise
@@ -117,10 +128,7 @@ const awaitWrap = (promise: Promise<Result<any>>) =>
  * @param {function} func:(...args:any[])=>any
  * @returns {function}
  */
-export const willInject = (
-  func: (...args: any[]) => any,
-  successCodes?: number[]
-) => {
+const willInject = (func: (...args: any[]) => any, successCodes?: number[]) => {
   if (['promise', 'function'].indexOf(getTypeOfValue(func)) > -1) {
     return async (...funcParams: any[]) => {
       const promiseTmp = func(...funcParams)
@@ -167,7 +175,7 @@ export const willInject = (
  * @param date
  * @param format
  */
-export const formatTime = (
+const formatTime = (
   date: string | undefined = undefined,
   format: string = DATE_TIME_FORMAT
 ): string => {
@@ -179,12 +187,14 @@ export const formatTime = (
  * @param baseUrl url
  * @param obj
  * @returns {string}
- * eg:
+ * @example
+ * ```ts
  *  let obj = {a: '3', b: '4'}
  *  setObjToUrlParams('www.baidu.com', obj)
  *  ==>www.baidu.com?a=3&b=4
+ * ```
  */
-export const setObjToUrlParams = (baseUrl: string, obj: any): string => {
+const setObjToUrlParams = (baseUrl: string, obj: any): string => {
   let parameters = ''
   for (const key in obj) {
     parameters += key + '=' + encodeURIComponent(obj[key]) + '&'
@@ -193,4 +203,16 @@ export const setObjToUrlParams = (baseUrl: string, obj: any): string => {
   return /\?$/.test(baseUrl)
     ? baseUrl + parameters
     : baseUrl.replace(/\/?$/, '?') + parameters
+}
+
+export {
+  _console,
+  loadScript,
+  immediateSetInterval,
+  getTypeOfValue,
+  getPropValue,
+  deepMerge,
+  willInject,
+  formatTime,
+  setObjToUrlParams,
 }

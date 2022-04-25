@@ -96,6 +96,13 @@ export class IChart {
   }
 
   /**
+   * 销毁chart实例
+   */
+  disposeChart() {
+    this.echartInstance.dispose()
+  }
+
+  /**
    * 返回chart的option
    * @param el
    */

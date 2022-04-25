@@ -36,6 +36,7 @@ class Pattern {
     /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
   private readonly twCome = /^(\d{8}|[a-zA-Z]\d{7})$/ // 台湾居民来往大陆通行证(台胞证)
   private readonly hmHid = /^8[123]0000\d{12}$/ // 港澳台居民居住证
+  private readonly regionArea = /.+?(省|市|自治区|自治州|县|区)/g
 
   /**
    * 身份证规则检测
@@ -253,6 +254,22 @@ class Pattern {
    */
   testHmHid(value: string) {
     return this.hmHid.test(value.trim())
+  }
+
+  /**
+   * 从输入的内容中获取行政区域
+   * @param val
+   * @example
+   * ```ts
+   * matchRegion('淮南市人民检察院')
+   * ==>'淮南市'
+   *
+   * matchRegion('aaa')
+   * ==>null
+   * ```
+   */
+  matchRegion(value: string) {
+    return value.match(this.regionArea)
   }
 }
 

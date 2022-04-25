@@ -24,7 +24,7 @@ export default defineConfig({
   output: [
     {
       file: resolveFile(pkg.main),
-      format: 'es',
+      format: 'esm',
       name: 'ivy2',
     },
   ],
@@ -38,16 +38,6 @@ export default defineConfig({
       abortOnError: true,
       useTsconfigDeclarationDir: true,
     }),
-    // babel({
-    //   babelHelpers: 'runtime',
-    //   extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-    //   // exclude: [
-    //   //   'node_modules/echarts/**',
-    //   //   'node_modules/axios/**',
-    //   //   'node_modules/dayjs/**',
-    //   // ],
-    //   plugins: ['@babel/plugin-transform-runtime'],
-    // }),
     babel({
       babelHelpers: 'runtime',
       extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
@@ -58,56 +48,3 @@ export default defineConfig({
   ],
   external: [/@babel\/runtime-corejs3/],
 })
-
-// export default [
-//   {
-//     input: resolveFile('./src/index.ts'),
-//     output: {
-//       file: resolveFile(pkg.main),
-//       format: 'esm',
-//       name: 'ivy2',
-//     },
-//     plugins: [
-//       commonjs(),
-//       nodeResolve({
-//         extensions,
-//       }),
-//       babel({
-//         exclude: 'node_modules/**',
-//         extensions,
-//         babelHelpers: 'bundled',
-//       }),
-//       terser(),
-//     ],
-//   },
-//   {
-//     input: resolveFile('./src/index.ts'),
-//     output: {
-//       file: resolveFile(pkg.types),
-//       format: 'es',
-//     },
-//     plugins: [typescript()],
-//   },
-// ]
-
-// export default {
-//   input: resolveFile('./src/index.ts'),
-//   output: [
-//     {
-//       file: resolveFile(pkg.main),
-//       format: 'esm',
-//       name: 'ivy2',
-//     },
-//     {
-//       file: resolveFile(pkg.types),
-//       format: 'es',
-//     },
-//   ],
-//   plugins: [
-//     commonjs(),
-//     nodeResolve(),
-//     babel({ babelHelpers: 'bundled' }),
-//     typescript(),
-//     terser(),
-//   ],
-// }
