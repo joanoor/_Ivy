@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { isArray, isObject } from './tools'
+import { isArray, isNumber, isObject } from './tools'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 
@@ -205,6 +205,63 @@ const setObjToUrlParams = (baseUrl: string, obj: any): string => {
     : baseUrl.replace(/\/?$/, '?') + parameters
 }
 
+/**
+ * Generates a random hexadecimal color code
+ * 生成随机的十六进制颜色代码
+ * @returns {string}
+ */
+const randomHexColorCode = () => {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16)
+  return '#' + n.slice(0, 6)
+}
+
+/**
+ * Converts a color code to an rgb() or rgba() string if alpha value is provided
+ * @param hex
+ * @returns
+ */
+const hexToRGB = (hex: string) => {
+  let alpha: boolean = false
+  let h: string = hex.slice(hex.startsWith('#') ? 1 : 0)
+  if (h.length === 3) h = [...h].map(x => x + x).join('')
+  else if (h.length === 8) alpha = true
+  const n = parseInt(h, 16)
+  return (
+    'rgb' +
+    (alpha ? 'a' : '') +
+    '(' +
+    (n >>> (alpha ? 24 : 16)) +
+    ', ' +
+    ((n & (alpha ? 0x00ff0000 : 0x00ff00)) >>> (alpha ? 16 : 8)) +
+    ', ' +
+    ((n & (alpha ? 0x0000ff00 : 0x0000ff)) >>> (alpha ? 8 : 0)) +
+    (alpha ? `, ${n & 0x000000ff}` : '') +
+    ')'
+  )
+}
+
+/**
+ * Converts the values of RGB components to a hexadecimal color code
+ * @param r
+ * @param g
+ * @param b
+ * @returns
+ */
+function RGBToHex(r: string): string
+function RGBToHex(r: number, g: number, b: number): string
+function RGBToHex(r: string | number, g?: number, b?: number) {
+  if (isNumber(r)) {
+    if (g && b) return ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0')
+  } else {
+    const result = r.match(/(?<=\()(\d+),(\d+),(\d+)(?=\))/)
+    if (result) {
+      return result[0]
+    } else {
+      throw new Error('非法的rgb颜色')
+    }
+  }
+}
+
 export {
   _console,
   loadScript,
@@ -215,4 +272,7 @@ export {
   willInject,
   formatTime,
   setObjToUrlParams,
+  randomHexColorCode,
+  hexToRGB,
+  RGBToHex,
 }
