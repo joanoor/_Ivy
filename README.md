@@ -1,4 +1,10 @@
-<div style="font-size:35px;font-weight:600;text-align:center">ivy2</div>
+<div align="center" style="font-weight:600">
+  <h1>ivy2 
+
+  ![GitHub](https://img.shields.io/github/license/joanor/Ivy?style=plastic) 
+
+  </h1>
+</div>
 
 **English** | [中文](./README.zh-CN.md)
 
