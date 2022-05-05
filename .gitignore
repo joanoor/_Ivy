@@ -3,3 +3,4 @@ dist/**/*.d.ts
 dist/**/*.ts
 README.zh-CN.html
 README.html
+dist
