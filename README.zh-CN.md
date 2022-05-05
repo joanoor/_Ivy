@@ -1,4 +1,4 @@
-<div align="center" style="font-size:35px;font-weight:600">ivy2</div>
+<div style="font-size:35px;font-weight:600;text-align:center">ivy2</div>
 
 ## 简介
 

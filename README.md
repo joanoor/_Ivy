@@ -1,4 +1,4 @@
-# ivy2
+<div style="font-size:35px;font-weight:600;text-align:center">ivy2</div>
 
 **English** | [中文](./README.zh-CN.md)
 
@@ -16,7 +16,7 @@ use 👍*eslint+prettier+rollup+typescript+babel*. The dependency package includ
 4. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
 5. [qs](https://www.npmjs.com/package/qs)
 6. [lodash-es](https://www.npmjs.com/package/lodash-es)
-7. [async-validator](https://www.npmjs.com/package/async-validator) form validator
+7. [async-validator](https://www.npmjs.com/package/async-validator) - form validator
 
 ## Install and usage
 
@@ -35,6 +35,7 @@ By encapsulating axios to implement error handling (when the interface uses asyn
  * ```CreateAxiosOptions```  
  * ```AxiosTransform```  
  * ```Result```  
+  
  **🌙 method**   
  * ```createAxios``` - Generate an instance of the IAxios type  
  * ```getAxiosInstance``` - IAxios instance method, get axios instance
@@ -150,7 +151,6 @@ const loginFormRules = reactive(_rules)
 * ```isNullOrUnDef``` - is undefined or null
 * ```isPromise```
 * ```isHexColor```  - is hex color value
-* ```autoImport``` - webpack automatically imports js | ts files or style files in a directory
 
 &nbsp;&nbsp;&nbsp;&nbsp;😽 Regular check expression   
 &nbsp;&nbsp;&nbsp;&nbsp;Instance methods of the Pattern class:
