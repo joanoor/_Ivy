@@ -13,8 +13,8 @@ export interface UploadFileParams {
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined
 
+// post请求的时候添加参数到url
 export interface RequestOptions {
-  // post请求的时候添加参数到url
   joinParamsToUrl?: boolean
   // 格式化提交参数时间
   formatDate?: boolean

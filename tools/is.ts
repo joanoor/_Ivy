@@ -2,7 +2,7 @@
  * 判断是否是某种类型
  */
 
-import { getTypeOfValue } from '../utils'
+import { getTypeOfValue } from './utils'
 
 export const isString = (val: unknown): val is string =>
   getTypeOfValue(val) === 'string'

@@ -12,6 +12,7 @@ import filesize from 'rollup-plugin-filesize'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { terser } from 'rollup-plugin-terser'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
+import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 const resolveFile = filePath => path.join(__dirname, filePath)
 import { resolve } from 'path'
@@ -45,6 +46,11 @@ export default defineConfig({
     }),
     terser(),
     filesize(),
+    visualizer({
+      filename: 'visualizer.html',
+      gzipSize: true,
+      brotliSize: true,
+    }),
   ],
   external: [/@babel\/runtime-corejs3/],
 })

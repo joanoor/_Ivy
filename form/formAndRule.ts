@@ -2,7 +2,7 @@
   生成表单解构以及表单校验规则
  */
 
-import { _console } from '../utils'
+import { _console } from '../tools/utils'
 import { isEmpty } from '../tools/is'
 import type { Rules, RuleItem } from 'async-validator'
 
@@ -25,6 +25,7 @@ function optFactory(
   opt: string,
   baseStruct: BaseStructs,
   uniqId: string
+  // eslint-disable-next-line @typescript-eslint/ban-types
 ): BaseStruct | {} {
   const index = !uniqId
     ? baseStruct.findIndex(v => v.label === opt)
