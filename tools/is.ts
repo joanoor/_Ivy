@@ -2,8 +2,6 @@
  * 判断是否是某种类型
  */
 
-import { getTypeOfValue } from './utils'
-
 export const isString = (val: unknown): val is string =>
   getTypeOfValue(val) === 'string'
 
@@ -95,3 +93,10 @@ export const isHexColor = (color: string) => {
   const reg = /^#([0-9a-fA-F]{3}|[0-9a-fA-f]{6})$/
   return reg.test(color)
 }
+
+/**
+ * 返回值的类型
+ * @param value 任意值（经过toLowerCase处理）
+ */
+ export const getTypeOfValue = (value: unknown) =>
+ Object.prototype.toString.call(value).slice(8, -1).toLocaleLowerCase()

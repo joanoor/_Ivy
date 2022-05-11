@@ -14,16 +14,17 @@ Ivy2 is a free and open source typescript toolbox.can be used in `Vue`,  `React`
 
 ## Feature
 
-use 👍*eslint+prettier+rollup+typescript+babel*. The dependency package includes the following parts(That means you can use the following packages directly in your project):
+use 👍*eslint+prettier+rollup+typescript+babel*. The dependency package includes the following parts(That is to say, you can directly import and use the following packages in your project):
 
-1. [axios](https://www.axios-http.cn/)
-2. [dayjs](https://dayjs.fenxianglu.cn/)
-3. [echarts](https://echarts.apache.org/handbook/zh/get-started/)
-4. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
-5. [qs](https://www.npmjs.com/package/qs)
-6. [lodash-es](https://www.npmjs.com/package/lodash-es)
-7. [async-validator](https://www.npmjs.com/package/async-validator) - form validator
+1. [async-validator](https://www.npmjs.com/package/async-validator) - form validator
+2. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
+3. [qs](https://www.npmjs.com/package/qs)
 
+If you want to use the related functions of axios and echarts, you need to install axios and echarts after installing ivy2 by yourself.
+```shell
+$ npm i axios
+$ npm i echarts
+```
 ## Install and usage
 
 **INSTALL**  

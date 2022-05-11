@@ -1,7 +1,4 @@
-import dayjs from 'dayjs'
-import { isArray, isNumber, isObject } from './is'
-
-const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
+import { isNumber, getTypeOfValue } from './is'
 
 interface Result<T> {
   code?: number
@@ -147,12 +144,6 @@ const immediateSetInterval = (func1: () => void, delayTime: number) => {
   return timer
 }
 
-/**
- * 返回值的类型
- * @param value 任意值（经过toLowerCase处理）
- */
-const getTypeOfValue = (value: unknown) =>
-  Object.prototype.toString.call(value).slice(8, -1).toLocaleLowerCase()
 
 /**
  * 返回指定对象属性的值
@@ -177,18 +168,6 @@ const deepMerge = <T extends object>(target: T, src: any = {}): T => {
         : (target[key] = src[key])
   }
   return target
-}
-
-/**
- * 格式化时间
- * @param date
- * @param format
- */
-const formatTime = (
-  date: string | undefined = undefined,
-  format: string = DATE_TIME_FORMAT
-): string => {
-  return dayjs(date).format(format)
 }
 
 /**
@@ -277,11 +256,9 @@ export {
   autoImport,
   loadScript,
   immediateSetInterval,
-  getTypeOfValue,
   getPropValue,
   deepMerge,
   willInject,
-  formatTime,
   setObjToUrlParams,
   randomHexColorCode,
   hexToRGB,
@@ -292,25 +269,25 @@ export {
  * Merge the contents of two or more objects together into the first object.
  * 暂时没有用上
  */
-export const merge = <T extends object>(target: T, ...src: any[]) => {
-  let acc: unknown
-  let copy: unknown
-  let clone: object
-  for (let i = 0; i < src.length; i++) {
-    for (const key in src[i]) {
-      acc = target[key]
-      copy = src[i][key]
-      if (target === copy) continue
-      if (copy && isObject(copy)) {
-        clone = acc && isArray(acc) ? acc : {}
-        target[key] = merge(clone, copy)
-      } else if (copy !== undefined) {
-        target[key] = copy
-      }
-    }
-  }
-  return target
-}
+// export const merge = <T extends object>(target: T, ...src: any[]) => {
+//   let acc: unknown
+//   let copy: unknown
+//   let clone: object
+//   for (let i = 0; i < src.length; i++) {
+//     for (const key in src[i]) {
+//       acc = target[key]
+//       copy = src[i][key]
+//       if (target === copy) continue
+//       if (copy && isObject(copy)) {
+//         clone = acc && isArray(acc) ? acc : {}
+//         target[key] = merge(clone, copy)
+//       } else if (copy !== undefined) {
+//         target[key] = copy
+//       }
+//     }
+//   }
+//   return target
+// }
 
 /*************下面的代码是封装promise请求*************/
 const awaitWrap = (promise: Promise<Result<any>>) =>

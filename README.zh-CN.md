@@ -12,15 +12,17 @@ Ivy2是一个自由开源的typescript工具集，可以在流行的web框架`Vu
 
 ## 特点
 
-采用技术栈 👍*eslint+prettier+rollup+typescript+babel*打包生成。依赖包包括如下部分（也就是说你可以直接在项目中使用下列包）：
+采用技术栈 👍*eslint+prettier+rollup+typescript+babel*打包生成。依赖包包括如下部分（也就是说你可以直接在项目中引入并使用下列包）：
 
-1. [axios](https://www.axios-http.cn/)
-2. [dayjs](https://dayjs.fenxianglu.cn/)
-3. [echarts](https://echarts.apache.org/handbook/zh/get-started/)
-4. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
-5. [qs](https://www.npmjs.com/package/qs)
-6. [lodash-es](https://www.npmjs.com/package/lodash-es)
-7. [async-validator](https://www.npmjs.com/package/async-validator) 用于表单校验
+1. [async-validator](https://www.npmjs.com/package/async-validator) - 用于表单校验
+2. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
+3. [qs](https://www.npmjs.com/package/qs)
+
+如果要使用axios和echarts的相关功能，需要用户自己安装完ivy2之后，再安装axios和echarts
+```shell
+$ npm i axios
+$ npm i echarts
+```
 
 ## 安装和用法
 

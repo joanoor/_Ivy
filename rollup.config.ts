@@ -9,7 +9,7 @@ import babel from '@rollup/plugin-babel'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import filesize from 'rollup-plugin-filesize'
-import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+// import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { terser } from 'rollup-plugin-terser'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -29,10 +29,13 @@ export default defineConfig({
       name: 'ivy2',
     },
   ],
+  external: [/@babel\/runtime-corejs3/, /echarts/, /axios/, /qs/, /async-validator/, /element-resize-detector/],
   plugins: [
-    peerDepsExternal({
-      includeDependencies: true,
-    }),
+    // peerDepsExternal({
+    //   includeDependencies: true,
+    // }),
+    // peerDepsExternal(),
+
     commonjs(),
     nodeResolve({ browser: true }),
     typescript({
@@ -52,5 +55,4 @@ export default defineConfig({
       brotliSize: true,
     }),
   ],
-  external: [/@babel\/runtime-corejs3/],
 })
