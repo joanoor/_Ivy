@@ -2,6 +2,7 @@ test/**
 lib/**
 types/**
 node_modules
-dist
+dist/**/*.ts
+dist/**/*.js
 *.md
 LICENSE

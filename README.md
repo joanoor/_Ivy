@@ -29,7 +29,9 @@ $ npm i echarts
 
 **INSTALL**  
 
-```$ npm i ivy2 --save```
+```$ npm i ivy2 --save```  
+Note: ivy2 encapsulates axios and echarts, if you want to enable related operations, execute:  
+```$ npm i ivy2 axios echarts--save```
 
 **API Reference**  
 

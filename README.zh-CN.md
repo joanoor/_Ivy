@@ -18,16 +18,12 @@ Ivy2是一个自由开源的typescript工具集，可以在流行的web框架`Vu
 2. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
 3. [qs](https://www.npmjs.com/package/qs)
 
-如果要使用axios和echarts的相关功能，需要用户自己安装完ivy2之后，再安装axios和echarts
-```shell
-$ npm i axios
-$ npm i echarts
-```
-
 ## 安装和用法
 
 **INSTALL**   
-```$ npm i ivy2 --save```
+```$ npm i ivy2 --save```  
+备注：ivy2封装了axios和echarts，如果想要启用相关操作，执行：  
+```$ npm i ivy2 axios echarts--save```
 
 **API Reference**  
   

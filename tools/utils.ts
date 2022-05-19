@@ -144,7 +144,6 @@ const immediateSetInterval = (func1: () => void, delayTime: number) => {
   return timer
 }
 
-
 /**
  * 返回指定对象属性的值
  * @param obj

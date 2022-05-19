@@ -1,6 +1,8 @@
 /**
  * 判断是否是某种类型
  */
+import { isElement as isDomElement } from 'lodash-es'
+import { default as isMyPromise } from 'is-promise'
 
 export const isString = (val: unknown): val is string =>
   getTypeOfValue(val) === 'string'
@@ -17,7 +19,7 @@ export const isObject = (val: unknown): val is Record<any, any> =>
   getTypeOfValue(val) === 'object'
 
 export const isDate = (val: unknown): val is Date =>
-  getTypeOfValue(val) === 'Date'
+  getTypeOfValue(val) === 'date'
 
 export const isRegExp = (val: unknown): val is RegExp =>
   getTypeOfValue(val) === 'regexp'
@@ -25,8 +27,9 @@ export const isRegExp = (val: unknown): val is RegExp =>
 export const isWindow = (val: unknown): val is Window =>
   typeof window !== 'undefined' && getTypeOfValue(val) === 'window'
 
-export const isElement = (val: unknown): val is Element =>
-  isObject(val) && !!val.tagName
+export const isElement = <T = unknown>(val: T): val is T =>
+  // isObject(val) && !!val.tagName
+  isDomElement(val)
 
 export const isMap = (val: unknown): val is Map<any, any> =>
   getTypeOfValue(val) === 'map'
@@ -74,13 +77,10 @@ export const isDef = <T = unknown>(val?: T): val is T =>
 export const isUnDef = <T = unknown>(val?: T): val is T => !isDef(val)
 
 export const isNullOrUnDef = (val: unknown): val is null | undefined =>
-  isUnDef(val) && isNull(val)
+  isUnDef(val) || isNull(val)
 
-export const isPromise = <T = any>(val: unknown): val is Promise<T> =>
-  getTypeOfValue(val) === 'Promise' &&
-  isObject(val) &&
-  isFunction(val.then) &&
-  isFunction(val.catch)
+export const isPromise = <T = any>(val: any): val is Promise<T> =>
+  isMyPromise(val)
 
 /**
  * 判断是否 十六进制颜色值.
@@ -98,5 +98,5 @@ export const isHexColor = (color: string) => {
  * 返回值的类型
  * @param value 任意值（经过toLowerCase处理）
  */
- export const getTypeOfValue = (value: unknown) =>
- Object.prototype.toString.call(value).slice(8, -1).toLocaleLowerCase()
+export const getTypeOfValue = (value: unknown) =>
+  Object.prototype.toString.call(value).slice(8, -1).toLocaleLowerCase()
