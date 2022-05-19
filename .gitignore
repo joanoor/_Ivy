@@ -1,7 +1,7 @@
 node_modules
 dist/**/*.ts
 dist/**/*.js
-# coverage/
+coverage/
 *.html
 *.zip
 *.rar
