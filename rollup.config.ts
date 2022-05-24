@@ -29,7 +29,14 @@ export default defineConfig({
       name: 'ivy2',
     },
   ],
-  external: [/@babel\/runtime-corejs3/, /echarts/, /axios/, /qs/, /async-validator/, /element-resize-detector/],
+  external: [
+    /@babel\/runtime-corejs3/,
+    /echarts/,
+    /axios/,
+    /qs/,
+    /async-validator/,
+    /element-resize-detector/,
+  ],
   plugins: [
     // peerDepsExternal({
     //   includeDependencies: true,

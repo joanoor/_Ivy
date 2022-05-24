@@ -1,3 +1,4 @@
+import Schema from 'async-validator'
 import { isNumber, getTypeOfValue } from './is'
 
 interface Result<T> {
@@ -110,11 +111,13 @@ function autoImport(files, typeName, ignores) {
 
 /**
  * 以promise的方式在html的head中添加script文件，例如可以cdn引入echarts，这样可以显著减少打包的体积
+ * @param scriptURL {string}  你的库文件的链接
+ * @param placeHolder {string}  scriptURL中的一个子字符串
  */
-const loadScript = (scriptURL: string, host: string) => {
+const loadScript = (scriptURL: string, placeHolder: string) => {
   new Promise((resolve, reject) => {
     const head = document.head
-    const dom = head.querySelector(`[src*="${host}"]`)
+    const dom = head.querySelector(`[src*="${placeHolder}"]`)
     if (dom) {
       resolve('已经加载成功')
     } else {
@@ -145,6 +148,48 @@ const immediateSetInterval = (func1: () => void, delayTime: number) => {
 }
 
 /**
+ * 执行轮询操作
+ * @param callback 任意执行轮询操作的函数
+ * @param time 轮询间隔
+ * @param immediate 是否立即执行轮询，true:是 | false:否
+ */
+class PollingAction {
+  // 轮询间隔
+  private time: number
+  // 是否立即执行
+  private immediate: boolean
+  // 轮询执行的操作
+  private callback: AnyFunction
+
+  private timer!: ReturnType<typeof setTimeout> | null
+
+  constructor(callback: AnyFunction, time = 1000, immediate = false) {
+    this.time = time
+    this.immediate = immediate
+    this.callback = callback
+  }
+
+  start() {
+    if (this.immediate) {
+      this.callback()
+    }
+    this.timer = setInterval(() => {
+      try {
+        this.callback()
+      } catch (error) {
+        console.log(error)
+        this.cancel()
+      }
+    }, this.time)
+  }
+
+  cancel() {
+    this.timer && clearInterval(this.timer)
+    this.timer = null
+  }
+}
+
+/**
  * 返回指定对象属性的值
  * @param obj
  * @param key
@@ -159,12 +204,14 @@ const getPropValue = <T, K extends keyof T>(obj: T, key: K) => {
  * @param target
  * @param src
  */
-const deepMerge = <T extends object>(target: T, src: any = {}): T => {
-  for (const key in src) {
-    target[key] =
-      getTypeOfValue(target[key]) === 'object'
-        ? deepMerge(target[key], src[key])
-        : (target[key] = src[key])
+const deepMerge = <T extends object>(target: T, ...srcs: any[]): T => {
+  for (const src of srcs) {
+    for (const key in src) {
+      target[key] =
+        getTypeOfValue(target[key]) === 'object'
+          ? deepMerge(target[key], src[key])
+          : (target[key] = src[key])
+    }
   }
   return target
 }
@@ -210,8 +257,20 @@ const randomHexColorCode = () => {
 const hexToRGB = (hex: string) => {
   let alpha = false
   let h: string = hex.slice(hex.startsWith('#') ? 1 : 0)
-  if (h.length === 3) h = [...h].map(x => x + x).join('')
-  else if (h.length === 8) alpha = true
+  if (h.length === 3) {
+    const pattern = /^[A-Fa-f0-9]{3}$/
+    if (!pattern.test(h)) throw new Error('输入的参数不符合16进制颜色')
+    else h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2]
+  } else if (h.length === 6) {
+    const pattern = /^[A-Fa-f0-9]{6}$/
+    if (!pattern.test(h)) throw new Error('输入的参数不符合16进制颜色')
+  } else if (h.length === 8) {
+    const pattern = /^[A-Fa-f0-9]{8}$/
+    if (!pattern.test(h)) throw new Error('输入的参数不符合16进制颜色')
+    else alpha = true
+  } else {
+    throw new Error('输入的参数不符合16进制颜色')
+  }
   const n = parseInt(h, 16)
   return (
     'rgb' +
@@ -238,11 +297,21 @@ function RGBToHex(r: string): string
 function RGBToHex(r: number, g: number, b: number): string
 function RGBToHex(r: string | number, g?: number, b?: number) {
   if (isNumber(r)) {
-    if (g && b) return ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0')
+    if (g && b) {
+      if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+        return `#${((r << 16) + (g << 8) + b).toString(16).padStart(6, '0')}`
+      } else {
+        throw new Error('非法的rgb颜色')
+      }
+    }
   } else {
-    const result = r.match(/(?<=\()(\d+),(\d+),(\d+)(?=\))/)
+    const result = r.match(/(?<=rgb\()(\d+),(\d+),(\d+)(?=\))/)
     if (result) {
-      return result[0]
+      return RGBToHex(
+        parseInt(result[1]),
+        parseInt(result[2]),
+        parseInt(result[3])
+      )
     } else {
       throw new Error('非法的rgb颜色')
     }
@@ -255,6 +324,7 @@ export {
   autoImport,
   loadScript,
   immediateSetInterval,
+  PollingAction,
   getPropValue,
   deepMerge,
   willInject,

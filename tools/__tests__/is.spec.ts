@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   getTypeOfValue,
   isArray,
@@ -23,33 +24,33 @@ import {
   isWindow,
 } from '../is'
 
-describe(`test "is" module`, () => {
-  test('isString', () => {
+describe(`测试is模块`, () => {
+  test('isString: Test if value is a string', () => {
     expect(isString('')).toBe(true)
     expect(isString('hello world')).toBe(true)
     expect(isString(123)).not.toBe(true)
     expect(isString(Symbol('a'))).not.toBe(true)
   })
 
-  test('isNumber', () => {
+  test('isNumber: Test if value is a number', () => {
     expect(isNumber(0)).toBe(true)
     expect(isNumber('')).not.toBe(true)
     expect(isNumber(123)).toBe(true)
   })
 
-  test('isBoolean', () => {
+  test('isBoolean: Test if value is a boolean', () => {
     expect(isBoolean(!null)).toBe(true)
     expect(isBoolean(false)).toBe(true)
-    expect(isBoolean(true)).toBe(true)
+    expect(isBoolean(0)).toBe(false)
   })
 
-  test('isArray', () => {
+  test('isArray: Test if value is an array', () => {
     expect(isArray([])).toBe(true)
     expect(isArray([1, null, undefined])).toBe(true)
     expect(isArray(0)).not.toBe(true)
   })
 
-  test('isObject', () => {
+  test('isObject: Test if value is a object', () => {
     expect(isObject({})).toBe(true)
     expect(isObject(new Date())).not.toBe(true)
     expect(isObject(null)).not.toBe(true)
@@ -99,7 +100,7 @@ describe(`test "is" module`, () => {
 
   test('isFunction', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    expect(isFunction(() => {})).toBe(true)
+    expect(isFunction(() => { })).toBe(true)
     expect(isFunction(console.log)).toBe(true)
     expect(isFunction(test)).toBe(true)
     expect(isFunction(123)).not.toBe(true)
