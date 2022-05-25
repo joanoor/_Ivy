@@ -1,4 +1,3 @@
-import Schema from 'async-validator'
 import { isNumber, getTypeOfValue } from './is'
 
 interface Result<T> {
@@ -132,26 +131,10 @@ const loadScript = (scriptURL: string, placeHolder: string) => {
 }
 
 /**
- * 立即执行的setInterval
- * @param func1
- * @param delayTime 延迟执行时间
- */
-const immediateSetInterval = (func1: () => void, delayTime: number) => {
-  const timer = setInterval(
-    (function callback(func2: () => void) {
-      func2()
-      return callback
-    })(func1),
-    delayTime
-  )
-  return timer
-}
-
-/**
- * 执行轮询操作
- * @param callback 任意执行轮询操作的函数
- * @param time 轮询间隔
- * @param immediate 是否立即执行轮询，true:是 | false:否
+ * 设置轮询
+ * @param callback 轮询执行的回调函数
+ * @param time  轮询的时间间隔
+ * @param immediate 是否立刻执行 true: 是 | false: 否
  */
 class PollingAction {
   // 轮询间隔
@@ -323,7 +306,6 @@ export {
   scrollToTop,
   autoImport,
   loadScript,
-  immediateSetInterval,
   PollingAction,
   getPropValue,
   deepMerge,

@@ -40,7 +40,6 @@ describe('测试validType模块', () => {
 
     expect(pattern.testEmail('j@1')).not.toBe(true)
     expect(mockTestEmail).toBeCalledTimes(2)
-    console.log(mockTestEmail)
   })
 
   test('测试testUrl', () => {

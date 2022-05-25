@@ -1,6 +1,5 @@
 import * as utils from '../utils'
 
-jest.mock('axios')
 describe(`测试utils模块代码`, () => {
   test('测试_console对象', () => {
     const spyLog = jest.spyOn(utils._console, 'log')
@@ -57,6 +56,58 @@ describe(`测试utils模块代码`, () => {
     const script = document.head.querySelector(`[src*="${placeHolder}"]`)
     expect(script).not.toBeNull()
     expect((script as HTMLScriptElement).src).toBe(url)
+  })
+
+  describe('pollingAction', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.clearAllTimers()
+      jest.useRealTimers()
+    })
+
+    test('测试非立即执行轮询', () => {
+      const time = 1000
+      const callback = jest.fn()
+      const setInterval = jest.spyOn(global, 'setInterval')
+      const po = new utils.PollingAction(callback, time)
+
+      po.start()
+      expect(setInterval).toBeCalled()
+      expect(setInterval).toBeCalledTimes(1)
+      expect(callback).not.toBeCalled()
+
+      jest.advanceTimersByTime(time)
+      expect(callback).toBeCalled()
+      expect(callback).toBeCalledTimes(1)
+
+      jest.runOnlyPendingTimers()
+      expect(callback).toBeCalledTimes(2)
+
+      po.cancel()
+      jest.runOnlyPendingTimers()
+      expect(callback).toBeCalledTimes(2)
+    })
+
+    test('测试立即执行轮询', () => {
+      const time = 1000
+      const callback = jest.fn()
+      const po = new utils.PollingAction(callback, time, true)
+      po.start()
+      expect(callback).toBeCalled()
+      jest.runOnlyPendingTimers()
+      expect(callback).toBeCalled()
+      expect(callback).toBeCalledTimes(2)
+
+      jest.runOnlyPendingTimers()
+      expect(callback).toBeCalledTimes(3)
+
+      po.cancel()
+      jest.runOnlyPendingTimers()
+      expect(callback).toBeCalledTimes(3)
+    })
   })
 
   test('测试getPropValue方法', () => {
@@ -196,58 +247,5 @@ describe(`测试utils模块代码`, () => {
       expect(utils.RGBToHex(244, 233, 255)).toBe('#f4e9ff')
       expect(mockRGBToHex).toBeCalledTimes(2)
     })
-  })
-})
-
-describe('pollingAction', () => {
-  beforeEach(() => {
-    console.log('before each')
-    jest.useFakeTimers()
-  })
-
-  afterEach(() => {
-    console.log('after each')
-    jest.clearAllTimers()
-    jest.useRealTimers()
-  })
-
-  test('测试非立即执行的轮询', () => {
-    const time = 1000
-    const callback = jest.fn()
-    const po = new utils.PollingAction(callback, time)
-
-    po.start()
-    expect(callback).not.toBeCalled()
-
-    jest.runOnlyPendingTimers()
-    expect(callback).toBeCalled()
-    expect(callback).toBeCalledTimes(1)
-
-    jest.runOnlyPendingTimers()
-    expect(callback).toBeCalledTimes(2)
-
-    po.cancel()
-    jest.runOnlyPendingTimers()
-    expect(callback).toBeCalledTimes(2)
-  })
-
-  test('测试立即执行轮询', () => {
-    const time = 1000
-    const callback = jest.fn()
-    const po = new utils.PollingAction(callback, time, true)
-    po.start()
-    expect(callback).toBeCalled()
-
-    jest.runOnlyPendingTimers()
-    expect(callback).toBeCalled()
-    expect(callback).toBeCalledTimes(1)
-    expect(callback).toBeCalledTimes(2)
-
-    jest.runOnlyPendingTimers()
-    expect(callback).toBeCalledTimes(3)
-
-    po.cancel()
-    jest.runOnlyPendingTimers()
-    expect(callback).toBeCalledTimes(3)
   })
 })

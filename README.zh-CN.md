@@ -172,7 +172,6 @@ const loginFormRules = reactive(_rules)
 * ```testMoney``` - 金额检测
 * ```testTwCome``` - 台胞证检测
 * ```testHmHid``` - 港澳台居民居住证
-* ```matchRegion``` - 从输入的内容中获取行政区域（特定字符串）  
   一个例子：
   ```ts
   import { pattern } from 'ivy2'
