@@ -146,30 +146,22 @@ const loginFormRules = reactive(_rules)
 * ```isNullOrUnDef``` - 是否是undefined或者null
 * ```isPromise```
 * ```isHexColor```  - 是否是十六进制颜色值
-* ```autoImport``` - webpack自动引入某一目录下js|ts文件或者样式文件
+* ```getTypeOfValue``` - 返回参数的类型
 
 &nbsp;&nbsp;&nbsp;&nbsp;😽 正则校验表达式  
 &nbsp;&nbsp;&nbsp;&nbsp;Pattern类的实例方法：
-* ```testId``` - 身份证规则检测
+* ```testIdCardNo``` - 身份证规则检测
 * ```testCn``` - 检测是否为中文
 * ```testMobile``` - 手机号码检测
 * ```testEmail``` - 邮箱检测
 * ```testUrl``` - URL检测
 * ```testCarId``` - 车牌检测
-* ```testCnName``` - 中文名检测
-* ```testEnName``` - 英文名检测
-* ```testUserName``` - 用户名检测
-* ```testAddress``` - 地址检测
-* ```testDate``` - 日期检测
-* ```testNumVcode``` - 数字验证码检测
-* ```testVcode``` - 其它验证码检测
-* ```testCode``` - 编码检测
+* ```testDate``` - 检测是否输入的为日期
 * ```testHKMc``` - 港澳通行证检测
 * ```testTaiWan``` - 台湾通行证检测
 * ```testPassport``` - 护照检测
 * ```testNum``` - 整数检测
-* ```testDecimal``` - 小数或负数，小数后面一位检测
-* ```testMoney``` - 金额检测
+* ```testDecimal``` - 检测是否为小数
 * ```testTwCome``` - 台胞证检测
 * ```testHmHid``` - 港澳台居民居住证
   一个例子：
@@ -184,12 +176,10 @@ const loginFormRules = reactive(_rules)
 * ```scrollToTop``` - 指定容器的滚动条平滑滚动回最上面
 * ```autoImport``` - 当项目采用wepack时，使用此方法可以自动引入某一目录下js或ts文件或者样式文件
 * ```loadScript```  - 以promise的方式在html的head中添加script文件
-* ```immediateSetInterval```  - 立即执行的setInterval
-* ```getTypeOfValue``` - 返回参数的类型
+* ```pollingAction```  - 定义一个轮询方法
 * ```getPropValue```  - 返回指定对象属性的值
 * ```deepMerge``` - 深度合并
 * ```awaitWrap```和```willInject``` - 封装promise的ajax请求（当使用IAxios时，可以不用这两个方法了）
-* ```formatTime``` - 格式化时间，默认是'YYYY-MM-DD HH:mm:ss'这种格式
 * ```setObjToUrlParams``` - 将对象序列化为字符串并添加到url的后面
 * ```randomHexColorCode``` - 生成随机的十六进制颜色代码
 * ```hexToRGB``` - 16进制颜色转换成rgb颜色

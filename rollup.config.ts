@@ -52,7 +52,7 @@ export default defineConfig({
     babel({
       babelHelpers: 'runtime',
       extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-      configFile: resolve(__dirname, '.babelrc'),
+      configFile: resolve(__dirname, 'babel.config.cjs'),
     }),
     terser(),
     filesize(),

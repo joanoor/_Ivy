@@ -1,5 +1,32 @@
 import { isNumber, getTypeOfValue } from './is'
 
+export {
+  _console, // print colorfull
+  scrollToTop, // scroll to top
+  autoImport, // auto import module with webpack
+  loadScript, // load script as promise
+  PollingAction, // polling 轮询
+  getPropValue, // get prop value of a object
+  deepMerge, // deep merge
+  willInject, // wrap axios request @deprecated
+  setObjToUrlParams,
+  randomHexColorCode,
+  hexToRGB,
+  RGBToHex,
+  numTo3Interval,
+  arrScrambling, // shuffle the array 打乱数组
+  randomString, // generate a random string of specified length 生成随机指定长度的字符串
+  fistLetterUpper,
+  strToAsterisk, // add an asterisk in the middle of the string
+  digitUppercase, // convert numeric amounts to Chinese capitalized amounts
+  intToChinese, // convert Arabic numerals to Chinese numerals
+  toFullScreen,
+  exitFullscreen,
+  getClientHeight,
+  getPageViewWidth,
+  deepClone,
+  openWindow,
+}
 interface Result<T> {
   code?: number
   message?: string
@@ -10,17 +37,17 @@ interface funcObject {
   [propName: string]: any
 }
 
-enum fileType {
-  ISSCRIPT = 'script',
-  ISCSS = 'style', // 样式文件
-  ISMIXINS = 'mixin', // mixin
-}
-
 interface Console<T = string> {
   log: (str: T) => void
   warn: (str: T) => void
   error: (str: T) => void
   success: (str: T) => void
+}
+
+const fileType = {
+  ISSCRIPT: 'script',
+  ISCSS: 'style', // 样式文件
+  ISMIXINS: 'mixin', // mixin
 }
 
 /**
@@ -301,19 +328,313 @@ function RGBToHex(r: string | number, g?: number, b?: number) {
   }
 }
 
-export {
-  _console,
-  scrollToTop,
-  autoImport,
-  loadScript,
-  PollingAction,
-  getPropValue,
-  deepMerge,
-  willInject,
-  setObjToUrlParams,
-  randomHexColorCode,
-  hexToRGB,
-  RGBToHex,
+/**
+ * 将一串数字转换成数字千分位的写法 '1,234'
+ * @param n
+ * @returns
+ */
+function numTo3Interval(n: number) {
+  const num = n.toString()
+  const len = num.length
+  if (len <= 3) {
+    return num
+  } else {
+    const temp = ''
+    const remainder = len % 3
+    if (remainder > 0) {
+      // 不是3的整数倍
+      return (
+        num.slice(0, remainder) +
+        ',' +
+        num.slice(remainder, len).match(/\d{3}/g)?.join(',') +
+        temp
+      )
+    } else {
+      // 3的整数倍
+      return num.slice(0, len).match(/\d{3}/g)?.join(',') + temp
+    }
+  }
+}
+
+/**
+ * 数组乱序
+ * @param arr
+ * @returns
+ */
+function arrScrambling<T>(arr: T[]): T[] {
+  for (let i = 0; i < arr.length; i++) {
+    const randomIndex = Math.round(Math.random() * (arr.length - 1 - i)) + i
+    ;[arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]]
+  }
+  return arr
+}
+
+/**
+ * 生成随机字符串
+ * @param len 字符串长度
+ */
+function randomString(len: number) {
+  const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz123456789'
+  const strLen = chars.length
+  let randomStr = ''
+  for (let i = 0; i < len; i++) {
+    randomStr += chars.charAt(Math.floor(Math.random() * strLen))
+  }
+  return randomStr
+}
+
+/**
+ * 字符串首字母大写
+ * @param str
+ * @returns
+ */
+function fistLetterUpper(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * 将字符串中间指定区间字符替换成指定字符串
+ * 默认是将手机号码中间4位替换成'*'
+ * @param str
+ * @returns
+ */
+function strToAsterisk(str: string, start = 3, end = 7, fill = '*') {
+  if (str.length < end) {
+    throw new Error('字符串长度不能小于指定的区间')
+  }
+  return str.slice(0, start) + ''.padStart(end - start, fill) + str.slice(end)
+}
+
+/**
+ * 将数字转化为汉字大写金额
+ */
+function digitUppercase(n: number) {
+  const fraction = ['角', '分']
+  const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
+  const unit = [
+    ['元', '万', '亿'],
+    ['', '拾', '佰', '仟'],
+  ]
+  n = Math.abs(n)
+  let s = ''
+  for (let i = 0; i < fraction.length; i++) {
+    s += (
+      digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]
+    ).replace(/零./, '')
+  }
+  s = s || '整'
+  n = Math.floor(n)
+  for (let i = 0; i < unit[0].length && n > 0; i++) {
+    let p = ''
+    for (let j = 0; j < unit[1].length && n > 0; j++) {
+      p = digit[n % 10] + unit[1][j] + p
+      n = Math.floor(n / 10)
+    }
+    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s
+  }
+  return s
+    .replace(/(零.)*零元/, '元')
+    .replace(/(零.)+/g, '零')
+    .replace(/^整$/, '零元整')
+}
+
+/**
+ * 数字转化为中文数字
+ * @param value
+ * @returns
+ */
+function intToChinese(value: number) {
+  const str = String(value)
+  const len = str.length - 1
+  const idxs = [
+    '',
+    '十',
+    '百',
+    '千',
+    '万',
+    '十',
+    '百',
+    '千',
+    '亿',
+    '十',
+    '百',
+    '千',
+    '万',
+    '十',
+    '百',
+    '千',
+    '亿',
+  ]
+  const num = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
+  return str.replace(/([1-9]|0+)/g, ($, $1, idx, full) => {
+    let pos = 0
+    if ($1[0] !== '0') {
+      pos = len - idx
+      if (idx == 0 && $1[0] == 1 && idxs[len - idx] == '十') {
+        return idxs[len - idx]
+      }
+      return num[$1[0]] + idxs[len - idx]
+    } else {
+      const left = len - idx
+      const right = len - idx + $1.length
+      if (Math.floor(right / 4) - Math.floor(left / 4) > 0) {
+        pos = left - (left % 4)
+      }
+      if (pos) {
+        return idxs[pos] + num[$1[0]]
+      } else if (idx + $1.length >= len) {
+        return ''
+      } else {
+        return num[$1[0]]
+      }
+    }
+  })
+}
+
+/**
+ * 打开浏览器全屏
+ */
+function toFullScreen() {
+  const element = document.body as any
+  if (element.requestFullscreen) {
+    element.requestFullscreen()
+  } else if (element.mozRequestFullScreen) {
+    element.mozRequestFullScreen()
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen()
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullScreen()
+  }
+}
+
+/**
+ * 退出浏览器全屏
+ */
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen()
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen()
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen()
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen()
+  }
+}
+
+/**
+ * 获取可视窗口高度
+ * @returns
+ */
+function getClientHeight() {
+  let clientHeight = 0
+  if (document.body.clientHeight && document.documentElement.clientHeight) {
+    clientHeight =
+      document.body.clientHeight < document.documentElement.clientHeight
+        ? document.body.clientHeight
+        : document.documentElement.clientHeight
+  } else {
+    clientHeight =
+      document.body.clientHeight > document.documentElement.clientHeight
+        ? document.body.clientHeight
+        : document.documentElement.clientHeight
+  }
+  return clientHeight
+}
+
+/**
+ * 获取可视窗口宽度
+ * @returns
+ */
+function getPageViewWidth() {
+  return (
+    document.compatMode == 'BackCompat'
+      ? document.body
+      : document.documentElement
+  ).clientWidth
+}
+
+/**
+ * 对象深拷贝
+ * @param obj
+ * @param hash
+ * @returns
+ */
+function deepClone(obj: any, hash = new WeakMap()) {
+  // 日期对象直接返回一个新的日期对象
+  if (obj instanceof Date) {
+    return new Date(obj)
+  }
+  //正则对象直接返回一个新的正则对象
+  if (obj instanceof RegExp) {
+    return new RegExp(obj)
+  }
+  //如果循环引用,就用 weakMap 来解决
+  if (hash.has(obj)) {
+    return hash.get(obj)
+  }
+  // 获取对象所有自身属性的描述
+  const allDesc = Object.getOwnPropertyDescriptors(obj)
+  // 遍历传入参数所有键的特性
+  const cloneObj = Object.create(Object.getPrototypeOf(obj), allDesc)
+
+  hash.set(obj, cloneObj)
+  for (const key of Reflect.ownKeys(obj)) {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      cloneObj[key] = deepClone(obj[key], hash)
+    } else {
+      cloneObj[key] = obj[key]
+    }
+  }
+  return cloneObj
+}
+
+/**
+ * 打开一个窗体通用方法
+ * @param url
+ * @param windowName
+ * @param width
+ * @param height
+ */
+function openWindow(
+  url: string,
+  windowName: string,
+  width: number,
+  height: number
+) {
+  const x = parseInt(screen.width / 2.0 + '') - width / 2.0
+  const y = parseInt(screen.height / 2.0 + '') - height / 2.0
+  const isMSIE = navigator.appName == 'Microsoft Internet Explorer'
+  if (isMSIE) {
+    let p = 'resizable=1,location=no,scrollbars=no,width='
+    p = p + width
+    p = p + ',height='
+    p = p + height
+    p = p + ',left='
+    p = p + x
+    p = p + ',top='
+    p = p + y
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const retval = window.open(url, windowName, p)
+  } else {
+    const win = window.open(
+      url,
+      'ZyiisPopup',
+      'top=' +
+        y +
+        ',left=' +
+        x +
+        ',scrollbars=' +
+        scrollbars +
+        ',dialog=yes,modal=yes,width=' +
+        width +
+        ',height=' +
+        height +
+        ',resizable=no'
+    )
+    eval('try { win.resizeTo(width, height); } catch(e) { }')
+    win ? win.focus() : ''
+  }
 }
 
 /**

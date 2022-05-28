@@ -160,32 +160,24 @@ const loginFormRules = reactive(_rules)
 * ```isNullOrUnDef``` - is undefined or null
 * ```isPromise```
 * ```isHexColor```  - is hex color value
+* ```getTypeOfValue``` - the type of the return parameter
 
 &nbsp;&nbsp;&nbsp;&nbsp;😽 Regular check expression   
 &nbsp;&nbsp;&nbsp;&nbsp;Instance methods of the Pattern class:
-* ```testId``` - ID rule detection
+* ```testIdCardNo``` - ID rule detection
 * ```testCn``` - Check if it is Chinese
 * ```testMobile``` - Mobile number detection
 * ```testEmail``` - Mailbox detection
 * ```testUrl``` - URL detection
 * ```testCarId``` - License plate detection
-* ```testCnName``` - Chinese name detection
-* ```testEnName``` - English name detection
-* ```testUserName``` - Username detection
-* ```testAddress``` - address detection
-* ```testDate``` - Date detection
-* ```testNumVcode``` - Digital verification code detection
-* ```testVcode``` - Other verification code detection
-* ```testCode``` - Code detection
+* ```testDate``` - Check if the input is a date
 * ```testHKMc``` - Hong Kong and Macau Pass Testing
 * ```testTaiWan``` - Taiwan Pass Inspection
 * ```testPassport``` - Passport detection
 * ```testNum``` - Integer detection
-* ```testDecimal``` - Decimal or negative number, one digit after the decimal is detected
-* ```testMoney``` - Amount detection
+* ```testDecimal``` - Check for decimals
 * ```testTwCome``` - Taiwan compatriot certificate test
 * ```testHmHid``` - Residence Permit for Hong Kong, Macao and Taiwan Residents
-* ```matchRegion``` - Get administrative area (specific string) from input  
   example:
   ```ts
   import { pattern } from 'ivy2'
@@ -198,12 +190,10 @@ const loginFormRules = reactive(_rules)
 * ```scrollToTop``` - The scroll bar of the specified container scrolls back to the top smoothly
 * ```autoImport``` - When the project adopts wepack, use this method to automatically import js or ts files or style files in a certain directory
 * ```loadScript```  - Add script files in the head of html in the way of promise
-* ```immediateSetInterval```  - setInterval executed immediately
-* ```getTypeOfValue``` - the type of the return parameter
+* ```pollingAction```  - Define a polling method
 * ```getPropValue```  - Returns the value of the specified object property
 * ```deepMerge``` - deep merge
 * ```awaitWrap```and```willInject``` - Ajax request that encapsulates promise (when using IAxios, these two methods can be omitted)
-* ```formatTime``` - Formatted time, the default is 'YYYY-MM-DD HH:mm:ss' format
 * ```setObjToUrlParams``` - Serialize object to string and append to url
 * ```randomHexColorCode``` - Generate random hex color codes
 * ```hexToRGB``` - Convert hexadecimal color to rgb color

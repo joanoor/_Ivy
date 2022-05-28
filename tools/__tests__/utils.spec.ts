@@ -248,4 +248,67 @@ describe(`测试utils模块代码`, () => {
       expect(mockRGBToHex).toBeCalledTimes(2)
     })
   })
+
+  test('numberThousandths: 将输入的数字转换成千分位写法', () => {
+    expect(utils.numTo3Interval(34)).toBe('34')
+    expect(utils.numTo3Interval(1234)).toBe('1,234')
+  })
+
+  test('arrScrambling: 将一个数组转换成乱序数组', () => {
+    const mockArrScrambing = jest.spyOn(utils, 'arrScrambling')
+    const arr = [1, 4, 7, 10]
+
+    expect(utils.arrScrambling(arr).length).toBe(arr.length)
+    expect(mockArrScrambing).toBeCalledTimes(1)
+    expect(mockArrScrambing.mock.calls[0][0]).toEqual(arr)
+  })
+
+  test('randomString: 生成指定长度的一串随机字符串', () => {
+    expect(utils.randomString(8).length).toBe(8)
+    expect(utils.randomString(100).length).toBe(100)
+  })
+
+  test('firstLetterUpper: 将字符串首字母大写', () => {
+    expect(utils.fistLetterUpper('')).toBe('')
+    expect(utils.fistLetterUpper('abcd')).toBe('Abcd')
+    expect(utils.fistLetterUpper('abcd')).toMatch(/^A/)
+    expect(utils.fistLetterUpper('abcd')).not.toBe('abcd')
+  })
+
+  test('strToAsterisk: 将手机号码转换成中间四位为星号', () => {
+    expect(utils.strToAsterisk('17755429999')).toBe('177****9999')
+    expect(utils.strToAsterisk('18274648477555', 3, 9)).toBe('182******77555')
+    expect(() => utils.strToAsterisk('123')).toThrow(
+      '字符串长度不能小于指定的区间'
+    )
+  })
+
+  test('digitUppercase: 将数字转化为汉字大写金额', () => {
+    const mockDigitUpperCase = jest.spyOn(utils, 'digitUppercase')
+    expect(utils.digitUppercase(123.44)).toBe('壹佰贰拾叁元肆角肆分')
+    expect(mockDigitUpperCase).toBeCalledWith(123.44)
+    expect(utils.digitUppercase(123)).toBe('壹佰贰拾叁元整')
+    expect(utils.digitUppercase(0.5)).toBe('伍角')
+  })
+
+  test('intToChinese: 数字转化为中文数字', () => {
+    // const value1=utils.intToChinese(1238)
+    // const value2=utils.intToChinese(99992112354524352452435)
+    // const value3=utils.intToChinese(99992112354524)
+    // const value4 = utils.intToChinese(99992112354524355)
+    // expect(value1).toBe('一千二百三十八')
+    // expect(utils.intToChinese(99992112354524352452435)).toBe('')
+  })
+
+  test('toFullScreen: 打开浏览器全屏', () => {
+    const mockToFullScreen = jest.spyOn(utils, 'toFullScreen')
+    utils.toFullScreen()
+    expect(mockToFullScreen).toBeCalledTimes(1)
+  })
+
+  test('exitFullscreen: 退出浏览器全屏', () => {
+    const mockExitFullscreen = jest.spyOn(utils, 'exitFullscreen')
+    utils.exitFullscreen()
+    expect(mockExitFullscreen).toBeCalledTimes(1)
+  })
 })
