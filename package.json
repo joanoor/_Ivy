@@ -8,10 +8,9 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "test": "jest && coveralls",
+    "test": "jest",
     "build": "rollup --config rollup.config.ts",
-    "build:w": "rollup -c -w",
-    "coverall": "coveralls < coverage/lcov.info"
+    "build:w": "rollup -c -w"
   },
   "keywords": [],
   "author": "joanoor <joanoor@outlook.com>",
