@@ -16,10 +16,9 @@ jobs:
       with:
         node-version: '14'
 
-    - name: npm install, make test-coverage
+    - name: 安装依赖
       run: |
         npm install
-        npm run test:coverall
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
