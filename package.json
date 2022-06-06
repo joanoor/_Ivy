@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test:coverall": "jest --coverage && coveralls < coverage/lcov.info",
     "build": "rollup --config rollup.config.ts",
     "build:w": "rollup -c -w"
   },
