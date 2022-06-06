@@ -19,6 +19,8 @@ jobs:
     - name: 安装依赖
       run: |
         npm install
+        npm run test
+        ls
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
