@@ -283,12 +283,12 @@ describe(`测试utils模块代码`, () => {
     )
   })
 
-  test('digitUppercase: 将数字转化为汉字大写金额', () => {
-    const mockDigitUpperCase = jest.spyOn(utils, 'digitUppercase')
-    expect(utils.digitUppercase(123.44)).toBe('壹佰贰拾叁元肆角肆分')
+  test('chineseMoney: 将数字转化为汉字大写金额', () => {
+    const mockDigitUpperCase = jest.spyOn(utils, 'chineseMoney')
+    expect(utils.chineseMoney(123.44)).toBe('壹佰贰拾叁元肆角肆分')
     expect(mockDigitUpperCase).toBeCalledWith(123.44)
-    expect(utils.digitUppercase(123)).toBe('壹佰贰拾叁元整')
-    expect(utils.digitUppercase(0.5)).toBe('伍角')
+    expect(utils.chineseMoney(123)).toBe('壹佰贰拾叁元整')
+    expect(utils.chineseMoney(0.5)).toBe('伍角')
   })
 
   test('intToChinese: 数字转化为中文数字', () => {

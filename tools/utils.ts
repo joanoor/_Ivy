@@ -18,8 +18,8 @@ export {
   randomString, // generate a random string of specified length 生成随机指定长度的字符串
   fistLetterUpper,
   strToAsterisk, // add an asterisk in the middle of the string
-  digitUppercase, // convert numeric amounts to Chinese capitalized amounts
-  intToChinese, // convert Arabic numerals to Chinese numerals
+  chineseMoney, // convert numeric amounts to Chinese capitalized amounts 金额转换成中文大写金额
+  arabicToChinese, // convert Arabic numerals to Chinese numerals 阿拉伯数组转成中文大写数字
   toFullScreen,
   exitFullscreen,
   getClientHeight,
@@ -408,7 +408,7 @@ function strToAsterisk(str: string, start = 3, end = 7, fill = '*') {
 /**
  * 将数字转化为汉字大写金额
  */
-function digitUppercase(n: number) {
+function chineseMoney(n: number) {
   const fraction = ['角', '分']
   const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
   const unit = [
@@ -443,7 +443,7 @@ function digitUppercase(n: number) {
  * @param value
  * @returns
  */
-function intToChinese(value: number) {
+function arabicToChinese(value: number) {
   const str = String(value)
   const len = str.length - 1
   const idxs = [

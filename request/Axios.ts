@@ -307,8 +307,8 @@ export class IAxios {
       aLink.dispatchEvent(ev)
       aLink.click()
     } catch (err) {
-      _console.error('下载流文件出错了，详细错误信息如下：')
       console.error(err)
+      throw new Error('下载流文件出错了')
     }
   }
 }

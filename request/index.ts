@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios'
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
-import { deepMerge, setObjToUrlParams, _console } from '../tools/utils'
+import { deepMerge, setObjToUrlParams } from '../tools/utils'
 import { isString } from '../tools/is'
 import { formatRequestDate, addTimeStamp } from './helper'
 import { RequestEnum, ContentTypeEnum } from './types'
