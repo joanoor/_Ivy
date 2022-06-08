@@ -8,24 +8,23 @@ export {
   PollingAction, // polling 轮询
   getPropValue, // get prop value of a object
   deepMerge, // deep merge
-  willInject, // wrap axios request @deprecated
+  // willInject, // wrap axios request @deprecated
   setObjToUrlParams,
   randomHexColorCode,
   hexToRGB,
   RGBToHex,
-  numTo3Interval,
+  toThousands,
   arrScrambling, // shuffle the array 打乱数组
   randomString, // generate a random string of specified length 生成随机指定长度的字符串
   fistLetterUpper,
   strToAsterisk, // add an asterisk in the middle of the string
   chineseMoney, // convert numeric amounts to Chinese capitalized amounts 金额转换成中文大写金额
-  arabicToChinese, // convert Arabic numerals to Chinese numerals 阿拉伯数组转成中文大写数字
   toFullScreen,
   exitFullscreen,
   getClientHeight,
   getPageViewWidth,
-  deepClone,
   openWindow,
+  sleep,
 }
 interface Result<T> {
   code?: number
@@ -140,7 +139,7 @@ function autoImport(files, typeName, ignores) {
  * @param scriptURL {string}  你的库文件的链接
  * @param placeHolder {string}  scriptURL中的一个子字符串
  */
-const loadScript = (scriptURL: string, placeHolder: string) => {
+const loadScript = (scriptURL: string, placeHolder: string) =>
   new Promise((resolve, reject) => {
     const head = document.head
     const dom = head.querySelector(`[src*="${placeHolder}"]`)
@@ -151,11 +150,12 @@ const loadScript = (scriptURL: string, placeHolder: string) => {
       newDom.type = 'text/javascript'
       newDom.src = scriptURL
       newDom.onerror = reject
-      newDom.onload = resolve
+      newDom.onload = function () {
+        resolve(true)
+      }
       head.appendChild(newDom)
     }
   })
-}
 
 /**
  * 设置轮询
@@ -333,7 +333,7 @@ function RGBToHex(r: string | number, g?: number, b?: number) {
  * @param n
  * @returns
  */
-function numTo3Interval(n: number) {
+function toThousands(n: number) {
   const num = n.toString()
   const len = num.length
   if (len <= 3) {
@@ -439,59 +439,6 @@ function chineseMoney(n: number) {
 }
 
 /**
- * 数字转化为中文数字
- * @param value
- * @returns
- */
-function arabicToChinese(value: number) {
-  const str = String(value)
-  const len = str.length - 1
-  const idxs = [
-    '',
-    '十',
-    '百',
-    '千',
-    '万',
-    '十',
-    '百',
-    '千',
-    '亿',
-    '十',
-    '百',
-    '千',
-    '万',
-    '十',
-    '百',
-    '千',
-    '亿',
-  ]
-  const num = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
-  return str.replace(/([1-9]|0+)/g, ($, $1, idx, full) => {
-    let pos = 0
-    if ($1[0] !== '0') {
-      pos = len - idx
-      if (idx == 0 && $1[0] == 1 && idxs[len - idx] == '十') {
-        return idxs[len - idx]
-      }
-      return num[$1[0]] + idxs[len - idx]
-    } else {
-      const left = len - idx
-      const right = len - idx + $1.length
-      if (Math.floor(right / 4) - Math.floor(left / 4) > 0) {
-        pos = left - (left % 4)
-      }
-      if (pos) {
-        return idxs[pos] + num[$1[0]]
-      } else if (idx + $1.length >= len) {
-        return ''
-      } else {
-        return num[$1[0]]
-      }
-    }
-  })
-}
-
-/**
  * 打开浏览器全屏
  */
 function toFullScreen() {
@@ -555,41 +502,6 @@ function getPageViewWidth() {
 }
 
 /**
- * 对象深拷贝
- * @param obj
- * @param hash
- * @returns
- */
-function deepClone(obj: any, hash = new WeakMap()) {
-  // 日期对象直接返回一个新的日期对象
-  if (obj instanceof Date) {
-    return new Date(obj)
-  }
-  //正则对象直接返回一个新的正则对象
-  if (obj instanceof RegExp) {
-    return new RegExp(obj)
-  }
-  //如果循环引用,就用 weakMap 来解决
-  if (hash.has(obj)) {
-    return hash.get(obj)
-  }
-  // 获取对象所有自身属性的描述
-  const allDesc = Object.getOwnPropertyDescriptors(obj)
-  // 遍历传入参数所有键的特性
-  const cloneObj = Object.create(Object.getPrototypeOf(obj), allDesc)
-
-  hash.set(obj, cloneObj)
-  for (const key of Reflect.ownKeys(obj)) {
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      cloneObj[key] = deepClone(obj[key], hash)
-    } else {
-      cloneObj[key] = obj[key]
-    }
-  }
-  return cloneObj
-}
-
-/**
  * 打开一个窗体通用方法
  * @param url
  * @param windowName
@@ -638,6 +550,13 @@ function openWindow(
 }
 
 /**
+ * javascript version sleep
+ * @param ms number
+ * @returns
+ */
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+/**
  * Merge the contents of two or more objects together into the first object.
  * 暂时没有用上
  */
@@ -662,54 +581,89 @@ function openWindow(
 // }
 
 /*************下面的代码是封装promise请求*************/
-const awaitWrap = (promise: Promise<Result<any>>) =>
-  promise
-    .then(res => ({ success: res, error: null }))
-    .catch(err => ({ success: null, error: err }))
+// const awaitWrap = (promise: Promise<Result<any>>) =>
+//   promise
+//     .then(res => ({ success: res, error: null }))
+//     .catch(err => ({ success: null, error: err }))
 
 /**
  * 返回经过封装的promise或者函数，可以被注入到vue.prototype上
  * @param {function} func:(...args:any[])=>any
  * @returns {function}
  */
-const willInject = (func: (...args: any[]) => any, successCodes?: number[]) => {
-  if (['promise', 'function'].indexOf(getTypeOfValue(func)) > -1) {
-    return async (...funcParams: any[]) => {
-      const promiseTmp = func(...funcParams)
-      if (getTypeOfValue(promiseTmp) === 'promise') {
-        if (!successCodes || successCodes.length === 0) {
-          successCodes = [200, 0]
-        } else {
-          successCodes = [...successCodes]
-        }
-        const { success, error } = await awaitWrap(promiseTmp)
-        if (!success) {
-          _console.error(
-            `Oh..., There is an error with the network request ${error}`
-          )
-          return { data: null }
-        } else {
-          const { code = 200, message = '' } = success
-          if (successCodes.indexOf(code) > -1) {
-            return success
-          } else {
-            _console.error(
-              `The network request returns a data error-->${code}-->${message}`
-            )
-          }
-        }
-      } else {
-        return func
-      }
-    }
-  } else {
-    _console.warn(
-      `An unsupported format is detected and will be skipped, expected 'promise,function'`
-    )
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return async (...funcParams: any[]) => {
-      return func
-    }
-  }
-}
+// const willInject = (func: (...args: any[]) => any, successCodes?: number[]) => {
+//   if (['promise', 'function'].indexOf(getTypeOfValue(func)) > -1) {
+//     return async (...funcParams: any[]) => {
+//       const promiseTmp = func(...funcParams)
+//       if (getTypeOfValue(promiseTmp) === 'promise') {
+//         if (!successCodes || successCodes.length === 0) {
+//           successCodes = [200, 0]
+//         } else {
+//           successCodes = [...successCodes]
+//         }
+//         const { success, error } = await awaitWrap(promiseTmp)
+//         if (!success) {
+//           _console.error(
+//             `Oh..., There is an error with the network request ${error}`
+//           )
+//           return { data: null }
+//         } else {
+//           const { code = 200, message = '' } = success
+//           if (successCodes.indexOf(code) > -1) {
+//             return success
+//           } else {
+//             _console.error(
+//               `The network request returns a data error-->${code}-->${message}`
+//             )
+//           }
+//         }
+//       } else {
+//         return func
+//       }
+//     }
+//   } else {
+//     _console.warn(
+//       `An unsupported format is detected and will be skipped, expected 'promise,function'`
+//     )
+//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//     return async (...funcParams: any[]) => {
+//       return func
+//     }
+//   }
+// }
 /****************************************************/
+
+/**
+ * 对象深拷贝
+ * @param obj
+ * @param hash
+ * @returns
+ */
+//  function deepClone(obj: any, hash = new WeakMap()) {
+//   // 日期对象直接返回一个新的日期对象
+//   if (obj instanceof Date) {
+//     return new Date(obj)
+//   }
+//   //正则对象直接返回一个新的正则对象
+//   if (obj instanceof RegExp) {
+//     return new RegExp(obj)
+//   }
+//   //如果循环引用,就用 weakMap 来解决
+//   if (hash.has(obj)) {
+//     return hash.get(obj)
+//   }
+//   // 获取对象所有自身属性的描述
+//   const allDesc = Object.getOwnPropertyDescriptors(obj)
+//   // 遍历传入参数所有键的特性
+//   const cloneObj = Object.create(Object.getPrototypeOf(obj), allDesc)
+
+//   hash.set(obj, cloneObj)
+//   for (const key of Reflect.ownKeys(obj)) {
+//     if (typeof obj[key] === 'object' && obj[key] !== null) {
+//       cloneObj[key] = deepClone(obj[key], hash)
+//     } else {
+//       cloneObj[key] = obj[key]
+//     }
+//   }
+//   return cloneObj
+// }

@@ -2,6 +2,7 @@
   <h1>ivy2 
 
   ![GitHub](https://img.shields.io/github/license/joanor/Ivy?style=plastic) 
+  [![Coverage Status](https://coveralls.io/repos/github/joanor/Ivy/badge.svg?branch=master)](https://coveralls.io/github/joanor/Ivy?branch=master)
 
   </h1>
 </div>
@@ -113,7 +114,7 @@ export const loginFormAndRule = createFormAndRule()
 // login.vue
 import { loginFormAndRule } from './records'
 import { generateFormAndRules } from 'ivy2'
-const { _form, _rules } = generateFormAndRules(
+const [ _form, _rules ] = generateFormAndRules(
   ['username', 'password'],
   loginFormAndRule
 )

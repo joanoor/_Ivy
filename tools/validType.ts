@@ -175,7 +175,7 @@ class Pattern {
    * @param value
    * @returns
    */
-  testEmojiCharacter = (value: string) => {
+  testEmoji = (value: string) => {
     value = String(value)
     for (let i = 0; i < value.length; i++) {
       const hs = value.charCodeAt(i)

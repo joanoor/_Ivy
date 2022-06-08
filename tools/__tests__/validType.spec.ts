@@ -115,8 +115,16 @@ describe('测试validType模块', () => {
     expect(pattern.testHmHid('830000123456789123')).toBe(true)
   })
 
-  test('testEmojiCharacter: 校验是否包含emoji表情', () => {
-    expect(pattern.testEmojiCharacter('adsfsdf')).not.toBe(true)
-    expect(pattern.testEmojiCharacter('  🌞adsfads')).toBe(true)
+  test('testEmoji: 校验是否包含emoji表情', () => {
+    expect(pattern.testEmoji('adsfsdf')).not.toBe(true)
+    expect(pattern.testEmoji('  🌞adsfads')).toBe(true)
+    expect(pattern.testEmoji('🌞')).toBe(true)
+    expect(pattern.testEmoji('㈡㈢Ⅺ★№§■△▲◎‰€℀')).not.toBe(true)
+    expect(pattern.testEmoji('⃣')).not.toBe(true)
+    expect(pattern.testEmoji('©')).toBe(true)
+    expect(pattern.testEmoji('㊗')).toBe(true)
+    expect(pattern.testEmoji('⤴')).toBe(true)
+    expect(pattern.testEmoji('⬅')).toBe(true)
+    expect(pattern.testEmoji('℀')).toBe(true)
   })
 })

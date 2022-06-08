@@ -47,15 +47,23 @@ describe(`测试utils模块代码`, () => {
     }
   })
 
-  test('测试loadScript方法', async () => {
+  describe('测试loadScript方法', () => {
     const url = `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js`
     const placeHolder = 'jquery'
-    const mockLoadScript = jest.spyOn(utils, 'loadScript')
-    await utils.loadScript(url, placeHolder)
-    expect(mockLoadScript).toHaveBeenCalledTimes(1)
-    const script = document.head.querySelector(`[src*="${placeHolder}"]`)
-    expect(script).not.toBeNull()
-    expect((script as HTMLScriptElement).src).toBe(url)
+
+    test('使用resolves匹配器', async () => {
+      const mockLoadScript = jest.spyOn(utils, 'loadScript')
+
+      const res1 = await utils.loadScript(url, placeHolder)
+      expect(mockLoadScript).toHaveBeenCalledTimes(1)
+      expect(res1).toBe(true)
+      const script = document.head.querySelector(`[src*="${placeHolder}"]`)
+      expect(script).not.toBeNull()
+      expect((script as HTMLScriptElement).src).toBe(url)
+
+      const res2 = await utils.loadScript(url, placeHolder)
+      expect(res2).toBe('已经加载成功')
+    })
   })
 
   describe('pollingAction', () => {
@@ -71,6 +79,7 @@ describe(`测试utils模块代码`, () => {
     test('测试非立即执行轮询', () => {
       const time = 1000
       const callback = jest.fn()
+
       const setInterval = jest.spyOn(global, 'setInterval')
       const po = new utils.PollingAction(callback, time)
 
@@ -107,6 +116,22 @@ describe(`测试utils模块代码`, () => {
       po.cancel()
       jest.runOnlyPendingTimers()
       expect(callback).toBeCalledTimes(3)
+    })
+
+    test('测试出错的情况下，结束轮询', () => {
+      const time = 1000
+      const callbackError = jest.fn(() => {
+        throw new Error('出错了')
+      })
+      const poError = new utils.PollingAction(callbackError, time, true)
+
+      expect(() => poError.start()).toThrow('出错了')
+      expect(callbackError).toBeCalled()
+
+      const poError2 = new utils.PollingAction(callbackError, time)
+      poError2.start()
+      jest.runOnlyPendingTimers()
+      expect(callbackError).toBeCalled()
     })
   })
 
@@ -250,8 +275,9 @@ describe(`测试utils模块代码`, () => {
   })
 
   test('numberThousandths: 将输入的数字转换成千分位写法', () => {
-    expect(utils.numTo3Interval(34)).toBe('34')
-    expect(utils.numTo3Interval(1234)).toBe('1,234')
+    expect(utils.toThousands(34)).toBe('34')
+    expect(utils.toThousands(1234)).toBe('1,234')
+    expect(utils.toThousands(123456)).toBe('123,456')
   })
 
   test('arrScrambling: 将一个数组转换成乱序数组', () => {
@@ -291,15 +317,6 @@ describe(`测试utils模块代码`, () => {
     expect(utils.chineseMoney(0.5)).toBe('伍角')
   })
 
-  test('intToChinese: 数字转化为中文数字', () => {
-    // const value1=utils.intToChinese(1238)
-    // const value2=utils.intToChinese(99992112354524352452435)
-    // const value3=utils.intToChinese(99992112354524)
-    // const value4 = utils.intToChinese(99992112354524355)
-    // expect(value1).toBe('一千二百三十八')
-    // expect(utils.intToChinese(99992112354524352452435)).toBe('')
-  })
-
   test('toFullScreen: 打开浏览器全屏', () => {
     const mockToFullScreen = jest.spyOn(utils, 'toFullScreen')
     utils.toFullScreen()
@@ -310,5 +327,12 @@ describe(`测试utils模块代码`, () => {
     const mockExitFullscreen = jest.spyOn(utils, 'exitFullscreen')
     utils.exitFullscreen()
     expect(mockExitFullscreen).toBeCalledTimes(1)
+  })
+
+  test('getClientHeight：获取可视窗口高度', () => {
+    document.body.style.height = 100 + 'px'
+    document.body.style.width = 100 + 'px'
+    console.log(document.body.offsetHeight)
+    console.log('--->--->', utils.getClientHeight())
   })
 })

@@ -12,7 +12,6 @@ import { cloneDeep } from 'lodash-es'
 import { ContentTypeEnum, RequestEnum, RequestOptions, Result } from './types'
 import { isFunction } from '../tools/is'
 import { UploadFileParams } from './types'
-import { _console } from '../tools/utils'
 
 /**
  * 封装axios

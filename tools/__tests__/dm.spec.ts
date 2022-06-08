@@ -32,6 +32,10 @@ describe('测试dm模块', () => {
     ])
 
     expect(dm.pickDuplicate(['', 1, '', 2, 4, 1], '')).toEqual([[0, 2]])
+    expect(dm.pickDuplicate(['', 1, '', 2, 4, 1], ['', 1])).toEqual([
+      [0, 2],
+      [1, 5],
+    ])
   })
 
   test('检测数组的最大深度', () => {
@@ -40,5 +44,45 @@ describe('测试dm模块', () => {
     expect(dm.getDepth([2, [1, 2, [3]]])).toBe(3)
     expect(dm.getDepth([2, [[[[[[[[[1]]]]]]]]], [1, 2, [3]]])).toBe(10)
     expect(dm.getDepth([2, [[[[[[[[[]]]]]]]]], [1, 2, [3]]])).toBe(10)
+  })
+
+  test('将数组按指定key转换成响应的对象', () => {
+    const dm = new DM()
+    const list1 = [
+      {
+        name: 'xixi',
+        age: '26',
+        id: '10001',
+      },
+      {
+        name: 'liu',
+        age: '28',
+        id: '10002',
+      },
+    ]
+    const list2 = [
+      {
+        name: 'xixi',
+        age: '26',
+        id: '10001',
+      },
+      {
+        name: 'liu',
+        age: '28',
+        id: '10001',
+      },
+    ]
+
+    expect(dm.arrayToObject(list1, 'id')).toEqual({
+      '10001': { name: 'xixi', age: '26', id: '10001' },
+      '10002': {
+        name: 'liu',
+        age: '28',
+        id: '10002',
+      },
+    })
+    expect(dm.arrayToObject(list2, 'id')).toEqual({
+      '10001': { name: 'liu', age: '28', id: '10001' },
+    })
   })
 })
