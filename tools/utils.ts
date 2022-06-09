@@ -21,10 +21,9 @@ export {
   chineseMoney, // convert numeric amounts to Chinese capitalized amounts 金额转换成中文大写金额
   toFullScreen,
   exitFullscreen,
-  getClientHeight,
-  getPageViewWidth,
   openWindow,
   sleep,
+  approximatelyEqual,
 }
 interface Result<T> {
   code?: number
@@ -370,7 +369,7 @@ function arrScrambling<T>(arr: T[]): T[] {
 }
 
 /**
- * 生成随机字符串
+ * 生成指定长度的随机字符串
  * @param len 字符串长度
  */
 function randomString(len: number) {
@@ -470,39 +469,7 @@ function exitFullscreen() {
 }
 
 /**
- * 获取可视窗口高度
- * @returns
- */
-function getClientHeight() {
-  let clientHeight = 0
-  if (document.body.clientHeight && document.documentElement.clientHeight) {
-    clientHeight =
-      document.body.clientHeight < document.documentElement.clientHeight
-        ? document.body.clientHeight
-        : document.documentElement.clientHeight
-  } else {
-    clientHeight =
-      document.body.clientHeight > document.documentElement.clientHeight
-        ? document.body.clientHeight
-        : document.documentElement.clientHeight
-  }
-  return clientHeight
-}
-
-/**
- * 获取可视窗口宽度
- * @returns
- */
-function getPageViewWidth() {
-  return (
-    document.compatMode == 'BackCompat'
-      ? document.body
-      : document.documentElement
-  ).clientWidth
-}
-
-/**
- * 打开一个窗体通用方法
+ * 打开一个新的浏览器窗体
  * @param url
  * @param windowName
  * @param width
@@ -548,6 +515,16 @@ function openWindow(
     win ? win.focus() : ''
   }
 }
+
+/**
+ * Checks if two numbers are approximately equal to each other
+ * @param v1
+ * @param v2
+ * @param epsilon
+ * @returns
+ */
+const approximatelyEqual = (v1: number, v2: number, epsilon = 0.001) =>
+  Math.abs(v1 - v2) < epsilon
 
 /**
  * javascript version sleep

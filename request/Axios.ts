@@ -15,13 +15,14 @@ import { UploadFileParams } from './types'
 
 /**
  * 封装axios
+ *
  * 参考：
  *
- * https://juejin.cn/post/6916682684169191437 
- *
+ * https://juejin.cn/post/6916682684169191437
  * https://segmentfault.com/a/1190000040457067
- 
+ *
  * 可以注册多个拦截器，对于request拦截器，使用unshift方法
+ *
  * 对于response拦截器，使用的是push
  */
 export class IAxios {
@@ -35,6 +36,7 @@ export class IAxios {
   constructor(config: CreateAxiosOptions) {
     this.options = config
     this.axiosInstance = axios.create(config)
+    // 建立拦截器
     this.setupInterceptors()
   }
 
@@ -155,7 +157,7 @@ export class IAxios {
     const headers = config.headers || this.options.headers
     const contentType = headers?.['Content-Type'] || headers?.['content-type']
 
-    // 当Content-Type不是application/x-www-form-urlencoded，并且请求体中没有data，且请求方法为get时，什么也不做，直接返回config
+    // 当Content-Type不是application/x-www-form-urlencoded，或者请求体中没有data，或者求方法为get时，什么也不做，直接返回config
     if (
       contentType !== ContentTypeEnum.FORM_URLENCODED ||
       !Reflect.has(config, 'data') ||
@@ -171,45 +173,49 @@ export class IAxios {
   }
 
   /**
+   * 在项目表单中上传文件，可能有多种情况：
+   * 1. 先上传文件，然后将接口返回的链接作为参数，提交表单时，一并提交；但这种情况没有考虑取消提交表单；
+   * 2. 文件和表单的其他字段，比如：用户名，手机号码等等，在一起一并提交；这种方式可以取消表单，文件不会上传；
+   *
    * 使用element UI上传组件
    * 上传文件的时候，必须使用multipart/form-data这种方式
    */
-  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
-    const formData = new window.FormData()
-    const customFilename = params.name || 'file'
+  // uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
+  //   const formData = new window.FormData()
+  //   const customFilename = params.name || 'file'
 
-    if (params.filename) {
-      formData.append(customFilename, params.file, params.filename)
-    } else {
-      formData.append(customFilename, params.file)
-    }
+  //   if (params.name || params.filename) {
+  //     formData.append(customFilename, params.raw || params.file, params.name || params.filename)
+  //   } else {
+  //     formData.append(customFilename, params.raw || params.file)
+  //   }
 
-    if (params.data) {
-      Object.keys(params.data).forEach(key => {
-        const value = params.data?.[key]
-        if (Array.isArray(value)) {
-          value.forEach(item => {
-            formData.append(`${key}[]`, item)
-          })
-          return
-        }
+  //   if (params.data) {
+  //     Object.keys(params.data).forEach(key => {
+  //       const value = params.data?.[key]
+  //       if (Array.isArray(value)) {
+  //         value.forEach(item => {
+  //           formData.append(`${key}[]`, item)
+  //         })
+  //         return
+  //       }
 
-        formData.append(key, params.data?.[key])
-      })
-    }
+  //       formData.append(key, params.data?.[key])
+  //     })
+  //   }
 
-    return this.axiosInstance.request<T>({
-      ...config,
-      method: 'POST',
-      data: formData,
-      headers: {
-        'Content-type': ContentTypeEnum.FORM_DATA,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        ignoreCancelToken: true,
-      },
-    })
-  }
+  //   return this.axiosInstance.request<T>({
+  //     ...config,
+  //     method: 'POST',
+  //     data: formData,
+  //     headers: {
+  //       'Content-type': ContentTypeEnum.FORM_DATA,
+  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //       // @ts-ignore
+  //       ignoreCancelToken: true,
+  //     },
+  //   })
+  // }
 
   get<T = any>(
     config: AxiosRequestConfig,
@@ -250,6 +256,7 @@ export class IAxios {
 
     const { beforeRequestHook, requestCatchHook, transformRequestHook } =
       transform || {}
+
     beforeRequestHook &&
       isFunction(beforeRequestHook) &&
       (conf = beforeRequestHook(conf, opt))
@@ -289,25 +296,25 @@ export class IAxios {
    * @param config
    * @param options
    */
-  async downloadByStream<T>(
-    config: AxiosRequestConfig,
-    options?: RequestOptions
-  ) {
-    const res = await this.request(config, options)
-    try {
-      const fileName = res.headers['content-disposition']?.split('"')
-      const aLink = document.createElement('a')
-      const blob = new Blob([res.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
-      })
-      aLink.download = fileName
-      aLink.href = URL.createObjectURL(blob)
-      const ev = new Event('click', { bubbles: false })
-      aLink.dispatchEvent(ev)
-      aLink.click()
-    } catch (err) {
-      console.error(err)
-      throw new Error('下载流文件出错了')
-    }
-  }
+  // async downloadByStream<T>(
+  //   config: AxiosRequestConfig,
+  //   options?: RequestOptions
+  // ) {
+  //   const res = await this.request(config, options)
+  //   try {
+  //     const fileName = res.headers['content-disposition']?.split('"')
+  //     const aLink = document.createElement('a')
+  //     const blob = new Blob([res.data], {
+  //       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
+  //     })
+  //     aLink.download = fileName
+  //     aLink.href = URL.createObjectURL(blob)
+  //     const ev = new Event('click', { bubbles: false })
+  //     aLink.dispatchEvent(ev)
+  //     aLink.click()
+  //   } catch (err) {
+  //     console.error(err)
+  //     throw new Error('下载流文件出错了')
+  //   }
+  // }
 }

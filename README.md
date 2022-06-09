@@ -1,7 +1,8 @@
 <div align="center" style="font-weight:600">
   <h1>ivy2 
 
-  ![GitHub](https://img.shields.io/github/license/joanor/Ivy?style=plastic) 
+  <!-- ![GitHub](https://img.shields.io/github/license/joanor/Ivy?style=plastic)  -->
+  ![GitHub](https://img.shields.io/github/license/joanor/Ivy) 
   [![Coverage Status](https://coveralls.io/repos/github/joanor/Ivy/badge.svg?branch=master)](https://coveralls.io/github/joanor/Ivy?branch=master)
 
   </h1>
@@ -23,8 +24,7 @@ use 👍*eslint+prettier+rollup+typescript+babel*. The dependency package includ
 
 If you want to use the related functions of axios and echarts, you need to install axios and echarts after installing ivy2 by yourself.
 ```shell
-$ npm i axios
-$ npm i echarts
+$ npm i axios echarts
 ```
 ## Install and usage
 
@@ -32,11 +32,11 @@ $ npm i echarts
 
 ```$ npm i ivy2 --save```  
 Note: ivy2 encapsulates axios and echarts, if you want to enable related operations, execute:  
-```$ npm i ivy2 axios echarts--save```
+```$ npm i ivy2 axios echarts --save```
 
 **API Reference**  
 
-🥇 <span style="color:#1e90ff;font-size:16px;font-weight:600">axios related:<span>  
+🥇 <span style="color:#1e90ff;font-size:16px;font-weight:600">axios related:</span>  
 
 By encapsulating axios to implement error handling (when the interface uses async await, error handling can also be performed by default), and provide cancel request service, and you can also set whether to return native response...  
 
@@ -52,16 +52,16 @@ By encapsulating axios to implement error handling (when the interface uses asyn
  * ```configAxios``` - IAxios instance method, configure axios instance
  * ```setHeader``` - IAxios instance method, set custom instance default headers
  * ```supportFormData``` - IAxios instance method, by judging whether the post request is made with application/x-www-form-urlencoded, and the config is processed
- * ```uploadFile``` - IAxios instance method, use formData to upload files (you can also upload multiple at a time)
  * ```get``` - IAxios instance method, same as get in axios
  * ```post``` - IAxios instance method, same as post in axios
  * ```put``` - IAxios instance method, same as put in axios
  * ```delete``` - IAxios instance method, same as delete in axios
  * ```request``` - IAxios instance methods, do not use aliases get, post, put, delete. Use the request method directly, and implement the calling interface by passing in parameters
- * ```downloadByStream``` - IAxios instance method, download the file stream, and return the native response directly (through configuration)
+ <!-- * ```downloadByStream``` - IAxios instance method, download the file stream, and return the native response directly (through configuration)
+ * ```uploadFile``` - IAxios instance method, use formData to upload files (you can also upload multiple at a time) -->
  * ```checkStatus``` - The network request returns the status check set
 
-🥇 <span style="color:#1e90ff;font-size:16px;font-weight:600">echarts related:<span>  
+🥇 <span style="color:#1e90ff;font-size:16px;font-weight:600">echarts related:</span>  
  
 By encapsulating ```echarts`` and ```element-resize-detector``` to implement echarts adaptive window changes, and you can set whether to implement refresh echarts  
 
@@ -93,7 +93,7 @@ The validation rule set that comes with ivy2 is implemented through ``async-vali
 Check the simple password, whether the length range is between 6-20 digits
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More rules are still being enriched...
-  * ```generateFormAndRules``` - for generating { _form, _rules }
+  * ```generateFormAndRules``` - for generating [ _form, _rules ] 
 
 example:
 ```ts
@@ -128,7 +128,7 @@ export const loginFormAndRule = createFormAndRule()
 // login.vue
 import { loginFormAndRule } from './records'
 import { generateFormAndRules } from 'ivy2'
-const { _form, _rules } = generateFormAndRules(
+const [ _form, _rules ] = generateFormAndRules(
   ['username', 'password'],
   loginFormAndRule
 )
@@ -139,7 +139,7 @@ const loginFormRules = reactive(_rules)
 // The generated loginForm and loginFormRules are responsive data conforming to element-ui plus
 ```
 
-🥇 <span style="color:#1e90ff;font-size:16px;font-weight:600">other:<span> 
+🥇 <span style="color:#1e90ff;font-size:16px;font-weight:600">tools:</span> 
   
 &nbsp;&nbsp;&nbsp;&nbsp;🐻 Determine if it is of a certain type (type predicate)
 * ```isString```
@@ -179,6 +179,7 @@ const loginFormRules = reactive(_rules)
 * ```testDecimal``` - Check for decimals
 * ```testTwCome``` - Taiwan compatriot certificate test
 * ```testHmHid``` - Residence Permit for Hong Kong, Macao and Taiwan Residents
+* ```testEmoji``` - Check if the string contains emoji expressions
   example:
   ```ts
   import { pattern } from 'ivy2'
@@ -194,8 +195,24 @@ const loginFormRules = reactive(_rules)
 * ```pollingAction```  - Define a polling method
 * ```getPropValue```  - Returns the value of the specified object property
 * ```deepMerge``` - deep merge
-* ```awaitWrap```and```willInject``` - Ajax request that encapsulates promise (when using IAxios, these two methods can be omitted)
+<!-- * ```awaitWrap```and```willInject``` - Ajax request that encapsulates promise (when using IAxios, these two methods can be omitted) -->
 * ```setObjToUrlParams``` - Serialize object to string and append to url
 * ```randomHexColorCode``` - Generate random hex color codes
 * ```hexToRGB``` - Convert hexadecimal color to rgb color
 * ```RGBToHex``` - Convert rgb color to hexadecimal color
+* ```toThousands``` - Convert rgb color to hexadecimal color
+* ```arrScrambling``` - shuffle (shuffle the order)
+* ```randomString``` - Generate random string of specified length
+* ```fistLetterUpper``` - Capitalize the first letter of the string
+* ```strToAsterisk``` - Replace the specified interval characters in the middle of the string with the specified string (the default is to replace the middle 4 digits of the mobile phone number with)
+* ```chineseMoney``` - Convert numbers to Chinese capitalized amounts
+* ```toFullScreen``` - Open browser full screen
+* ```exitFullscreen``` - Exit browser full screen
+* ```openWindow``` - Open a new browser form
+* ```approximatelyEqual``` - Checks if two numbers are approximately equal to each other
+* ```sleep``` - js implementation of sleep function
+
+&nbsp;&nbsp;&nbsp;&nbsp;🎯 data manipulate
+* ```pickDuplicate``` - Find the index of duplicate values ​​in an array
+* ```getDepth``` - Get the maximum depth of the array (that is, get the dimension of the array. Because they are at least one-dimensional arrays, deep defaults to 1)
+* ```arrayToObject``` - Convert the array to the response object by the specified key

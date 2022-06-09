@@ -171,7 +171,7 @@ class Pattern {
   }
 
   /**
-   * 校验是否包含emoji表情
+   * 校验字符串中是否包含emoji表情
    * @param value
    * @returns
    */

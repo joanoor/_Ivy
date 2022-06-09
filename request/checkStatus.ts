@@ -5,15 +5,13 @@ import { ErrorMessageMode } from './types'
  * @param status
  * @param msg
  * @param errorMessageMode
+ * @returns [string, string] 返回元组类型
  */
 export function checkStatus(
   status: number,
   msg?: string,
   errorMessageMode: ErrorMessageMode = 'message'
-): {
-  errMessage: string
-  errorMessageMode: string
-} {
+): [string, string] {
   let errMessage = ''
   switch (status) {
     case 400:
@@ -56,8 +54,5 @@ export function checkStatus(
       errMessage = '未知的网络错误，请联系管理员处理'
   }
 
-  return {
-    errMessage,
-    errorMessageMode,
-  }
+  return [errMessage, errorMessageMode]
 }

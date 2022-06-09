@@ -154,14 +154,22 @@ describe(`测试utils模块代码`, () => {
     const obj1 = {
       name: 'xixi',
       age: 24,
+      child: {
+        name: 'hihi',
+        age: 0,
+      },
     }
     const obj2 = {
       hobbies: ['code', 'sleep', 'sc2', 'db3'],
     }
     const obj3 = {
+      age: 44,
       family: {
         address: 'china',
         phone: '+86-17799999999',
+      },
+      child: {
+        age: 1,
       },
     }
     const mockDeepMerge = jest.spyOn(utils, 'deepMerge')
@@ -171,11 +179,15 @@ describe(`测试utils模块代码`, () => {
     expect(mockDeepMerge).toBeCalledTimes(1)
     expect(returnValue).toEqual({
       name: 'xixi',
-      age: 24,
+      age: 44,
       hobbies: ['code', 'sleep', 'sc2', 'db3'],
       family: {
         address: 'china',
         phone: '+86-17799999999',
+      },
+      child: {
+        name: 'hihi',
+        age: 1,
       },
     })
   })
@@ -328,11 +340,23 @@ describe(`测试utils模块代码`, () => {
     utils.exitFullscreen()
     expect(mockExitFullscreen).toBeCalledTimes(1)
   })
+  test('approximatelyEqual', () => {
+    const mockApproximatelyEqual = jest.spyOn(utils, 'approximatelyEqual')
+    expect(utils.approximatelyEqual(1000000004, 1000000015, 50)).toBe(true)
+    expect(mockApproximatelyEqual).toBeCalled()
 
-  test('getClientHeight：获取可视窗口高度', () => {
-    document.body.style.height = 100 + 'px'
-    document.body.style.width = 100 + 'px'
-    console.log(document.body.offsetHeight)
-    console.log('--->--->', utils.getClientHeight())
+    expect(utils.approximatelyEqual(1000000004, 1000000015, 10)).toBe(false)
+  })
+
+  test('sleep', async () => {
+    const start = performance.now()
+    const mockSleep = jest.spyOn(utils, 'sleep')
+    for (let i = 0; i < 3; i++) {
+      await utils.sleep(1000)
+    }
+    const end = performance.now()
+    expect(mockSleep).toBeCalledTimes(3)
+    const differ = end - start
+    expect(utils.approximatelyEqual(differ, 3000, 50)).toBe(true)
   })
 })

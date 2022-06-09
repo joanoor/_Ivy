@@ -8,6 +8,12 @@ import { IAxios } from './Axios'
 
 // transform的默认值
 const defaultTransform: AxiosTransform = {
+  transformRequestHook(res, options) {
+    const { isTransformResponse, isReturnNativeResponse } = options
+    if (isReturnNativeResponse) return res
+    if (!isTransformResponse) return res.data
+  },
+
   beforeRequestHook(config, options) {
     const {
       apiUrl,
@@ -70,6 +76,10 @@ const defaultTransform: AxiosTransform = {
     return config
   },
 
+  requestInterceptors(config, options) {
+    return config
+  },
+
   /**
    * response拦截器
    */
@@ -118,8 +128,7 @@ export const createAxios = (opt?: Partial<CreateAxiosOptions>) => {
   )
 }
 
-export * from './types'
 export * from './axiosTransform'
 export * from './checkStatus'
 export * from './helper'
-export * from './Axios'
+export * from './types'

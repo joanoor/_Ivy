@@ -16,26 +16,16 @@ export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined
 // post请求的时候添加参数到url
 export interface RequestOptions {
   joinParamsToUrl?: boolean
-  // 格式化提交参数时间
-  formatDate?: boolean
-  // 需要对返回数据进行处理
-  isTransformResponse?: boolean
-  // 是否返回原生响应头。比如：需要获取响应头时使用该属性
-  isReturnNativeResponse?: boolean
-  // 默认将prefix添加到url
-  joinPrefix?: boolean
-  // 接口地址
-  apiUrl?: string
-  // 请求拼接路径
-  urlPrefix?: string
-  // 消息提示类型
-  errorMessageMode?: ErrorMessageMode
-  // 是否加入时间戳
-  joinTimestamp?: boolean
-  // 忽略cancelToken
-  ignoreCancelToken?: boolean
-  // 是否携带token
-  withToken?: boolean
+  formatDate?: boolean // 格式化提交参数时间
+  isTransformResponse?: boolean // 需要对返回数据进行处理
+  isReturnNativeResponse?: boolean // 是否返回原生响应头。比如：需要获取响应头时使用该属性
+  joinPrefix?: boolean // 默认将prefix添加到url
+  apiUrl?: string // 接口地址
+  urlPrefix?: string // 请求拼接路径
+  errorMessageMode?: ErrorMessageMode // 消息提示类型
+  joinTimestamp?: boolean // 是否加入时间戳
+  ignoreCancelToken?: boolean // 忽略cancelToken
+  withToken?: boolean // 是否携带token
 }
 
 export interface Result<T = any> {

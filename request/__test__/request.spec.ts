@@ -1,4 +1,6 @@
-import { createAxios, IAxios } from '..'
+import qs from 'qs'
+import { ContentTypeEnum, createAxios } from '..'
+import { IAxios } from '../Axios'
 
 describe('测试request请求模块', () => {
   describe('createAxios：返回IAxios实例', () => {
@@ -19,8 +21,8 @@ describe('测试request请求模块', () => {
   })
 
   describe('测试IAxios基础非请求方法', () => {
-    const http = createAxios()
     test('getAxiosInstance', () => {
+      const http = createAxios()
       const mockGetAxiosInstance = jest.spyOn(http, 'getAxiosInstance')
       const instance = http.getAxiosInstance()
       expect(mockGetAxiosInstance).toBeCalled()
@@ -30,6 +32,7 @@ describe('测试request请求模块', () => {
     })
 
     test('configAxios', () => {
+      const http = createAxios()
       const mockConfigAxios = jest.spyOn(http, 'configAxios')
       http.configAxios({
         timeout: 80000,
@@ -38,6 +41,7 @@ describe('测试request请求模块', () => {
     })
 
     test('setHeader', () => {
+      const http = createAxios()
       const mockSetHeader = jest.spyOn(http, 'setHeader')
       http.setHeader({
         name: 'xixi',
@@ -46,25 +50,16 @@ describe('测试request请求模块', () => {
     })
   })
 
-  describe('测试IAxios基础请求请求', () => {
-    test('基础请求之get', async () => {
+  describe('测试IAxios基础请求', () => {
+    test('get请求', async () => {
       const http = createAxios({
-        transform: {
-          requestInterceptors(config, option) {
-            return config
-          },
-        },
         requestOptions: {
           ignoreCancelToken: false,
+          isReturnNativeResponse: false,
+          isTransformResponse: false,
         },
       })
-      const httpMock = jest.spyOn(http, 'get').mockResolvedValue({
-        userId: 1,
-        id: 2,
-        title: 'delectus aut autem',
-        completed: false,
-      })
-
+      const httpMock = jest.spyOn(http, 'get')
       const res = await http.get(
         {
           url: 'https://jsonplaceholder.typicode.com/todos/1',
@@ -73,36 +68,35 @@ describe('测试request请求模块', () => {
           ignoreCancelToken: false,
         }
       )
-
       expect(httpMock).toBeCalled()
       expect(res).toEqual({
         userId: 1,
-        id: 2,
+        id: 1,
         title: 'delectus aut autem',
         completed: false,
       })
     })
-    test('基础请求之post', async () => {
+
+    test('post请求', async () => {
       const http = createAxios()
-      const httpMock = jest.spyOn(http, 'post').mockResolvedValue({
-        id: 101,
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-      })
-
-      const res = await http.post({
-        url: 'https://jsonplaceholder.typicode.com/posts',
-        data: {
-          title: 'foo',
-          body: 'bar',
-          userId: 1,
+      const httpMock = jest.spyOn(http, 'post')
+      const res = await http.post(
+        {
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          data: {
+            title: 'foo',
+            body: 'bar',
+            userId: 1,
+          },
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
         },
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-
+        {
+          isReturnNativeResponse: false,
+          isTransformResponse: false,
+        }
+      )
       expect(httpMock).toBeCalled()
       expect(res).toEqual({
         id: 101,
@@ -112,65 +106,126 @@ describe('测试request请求模块', () => {
       })
     })
 
-    test('基础请求之put', async () => {
+    test('post请求(x-www-form-urlencoded方式)', async () => {
       const http = createAxios()
-      const httpMock = jest.spyOn(http, 'put').mockResolvedValue({
-        id: 101,
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-      })
-
-      const res = await http.put({
-        url: 'https://jsonplaceholder.typicode.com/posts/1',
-        data: {
-          id: 1,
-          title: 'foo',
-          body: 'bar',
-          userId: 1,
+      const httpMock = jest.spyOn(http, 'post')
+      const res = await http.post(
+        {
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          data: {
+            title: 'foo',
+            body: 'bar',
+            userId: 1,
+          },
+          headers: {
+            'Content-Type': ContentTypeEnum.FORM_URLENCODED,
+          },
         },
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-
+        {
+          isReturnNativeResponse: false,
+          isTransformResponse: false,
+        }
+      )
       expect(httpMock).toBeCalled()
       expect(res).toEqual({
         id: 101,
+        title: 'foo',
+        body: 'bar',
+        userId: '1',
+      })
+    })
+
+    test('put请求', async () => {
+      const http = createAxios()
+      const httpMock = jest.spyOn(http, 'put')
+
+      const res = await http.put(
+        {
+          url: 'https://jsonplaceholder.typicode.com/posts/1',
+          data: {
+            id: 1,
+            title: 'foo',
+            body: 'bar',
+            userId: 1,
+          },
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        },
+        {
+          isReturnNativeResponse: false,
+          isTransformResponse: false,
+        }
+      )
+      expect(httpMock).toBeCalled()
+      expect(res).toEqual({
+        id: 1,
         title: 'foo',
         body: 'bar',
         userId: 1,
       })
     })
 
-    test('基础请求之delete', async () => {
+    test('delete请求', async () => {
       const http = createAxios()
-      const httpMock = jest.spyOn(http, 'delete').mockResolvedValue({})
-
-      const res = await http.delete({
-        url: 'https://jsonplaceholder.typicode.com/posts/1',
-      })
+      const httpMock = jest.spyOn(http, 'delete')
+      const res = await http.delete(
+        {
+          url: 'https://jsonplaceholder.typicode.com/posts/1',
+        },
+        {
+          isReturnNativeResponse: false,
+          isTransformResponse: false,
+        }
+      )
 
       expect(httpMock).toBeCalled()
       expect(res).toEqual({})
     })
 
-    test('基础请求之request', async () => {
+    test('request请求', async () => {
       const http = createAxios()
-      const httpMock = jest
-        .spyOn(http, 'request')
-        .mockResolvedValue({ id: 1, title: '...', body: '...', userId: 1 })
-      const res = await http.request(
-        {
-          url: 'https://jsonplaceholder.typicode.com/todos',
-          method: 'get',
-        },
-        {
-          formatDate: true,
-        }
-      )
+      const httpMock = jest.spyOn(http, 'request')
+      const res = await http.request({
+        url: 'https://jsonplaceholder.typicode.com/todos/1',
+        method: 'get',
+      })
       expect(httpMock).toBeCalled()
-      expect(res).toEqual({ id: 1, title: '...', body: '...', userId: 1 })
+      expect(res).toEqual({
+        userId: 1,
+        id: 1,
+        title: 'delectus aut autem',
+        completed: false,
+      })
+    })
+  })
+
+  // describe('测试IAxios高级请求', () => {
+  //   test('使用element UI上传文件', async () => {
+
+  //   })
+  // })
+
+  describe('测试请求返回错误的状态码', () => {
+    test('get请求', async () => {
+      const http = createAxios({
+        requestOptions: {
+          ignoreCancelToken: false,
+          isReturnNativeResponse: false,
+          isTransformResponse: false,
+        },
+      })
+      const httpMock = jest.spyOn(http, 'get')
+      const res = await http.get({
+        url: 'https://jsonplaceholder.typicode.com/todos/1',
+      })
+      expect(httpMock).toBeCalled()
+      expect(res).toEqual({
+        userId: 1,
+        id: 1,
+        title: 'delectus aut autem',
+        completed: false,
+      })
     })
   })
 })

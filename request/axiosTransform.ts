@@ -55,6 +55,7 @@ export abstract class AxiosTransform {
 
   /**
    * response拦截器对错误进行处理
+   * 拦截的是网络错误，如果网络请求状态码status正常，没有错误。而且只是返回的code不是正常的200，则拦截不到。需要在responseInterceptors中进行处理
    */
   responseInterceptorsCatch?: (error: Error) => void
 }

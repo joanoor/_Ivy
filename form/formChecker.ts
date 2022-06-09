@@ -21,7 +21,6 @@ class FormChecker {
   // 分数校验
   scoreChecker(): ValidatorInterface {
     return (rule, value, callback) => {
-      console.log(value, 'value')
       if (!value || value === '') {
         callback(new Error('请输入得分规则'))
       } else {
