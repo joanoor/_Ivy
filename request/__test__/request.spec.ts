@@ -191,41 +191,12 @@ describe('测试request请求模块', () => {
         method: 'get',
       })
       expect(httpMock).toBeCalled()
-      expect(res).toEqual({
-        userId: 1,
-        id: 1,
-        title: 'delectus aut autem',
-        completed: false,
-      })
-    })
-  })
-
-  // describe('测试IAxios高级请求', () => {
-  //   test('使用element UI上传文件', async () => {
-
-  //   })
-  // })
-
-  describe('测试请求返回错误的状态码', () => {
-    test('get请求', async () => {
-      const http = createAxios({
-        requestOptions: {
-          ignoreCancelToken: false,
-          isReturnNativeResponse: false,
-          isTransformResponse: false,
-        },
-      })
-      const httpMock = jest.spyOn(http, 'get')
-      const res = await http.get({
-        url: 'https://jsonplaceholder.typicode.com/todos/1',
-      })
-      expect(httpMock).toBeCalled()
-      expect(res).toEqual({
-        userId: 1,
-        id: 1,
-        title: 'delectus aut autem',
-        completed: false,
-      })
+      // expect(res).toEqual({
+      //   userId: 1,
+      //   id: 1,
+      //   title: 'delectus aut autem',
+      //   completed: false,
+      // })
     })
   })
 })

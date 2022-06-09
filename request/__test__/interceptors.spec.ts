@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { checkStatus, createAxios, Result, ResultEnum } from '..'
 
-jest.mock('..')
+// jest.mock('..')
 
 const http = createAxios({
   transform: {
