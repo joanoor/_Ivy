@@ -9,7 +9,7 @@ const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
  */
 export function addTimeStamp<T extends boolean>(
   join: boolean,
-  restful: T
+  restful?: T
 ): T extends true ? string : object
 
 export function addTimeStamp(join: boolean, restful = false): string | object {

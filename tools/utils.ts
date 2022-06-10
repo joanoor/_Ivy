@@ -558,7 +558,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 // }
 
 /*************下面的代码是封装promise请求*************/
-// const awaitWrap = (promise: Promise<Result<any>>) =>
+// export const awaitWrap = (promise: Promise<Result<any>>) =>
 //   promise
 //     .then(res => ({ success: res, error: null }))
 //     .catch(err => ({ success: null, error: err }))

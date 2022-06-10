@@ -1,4 +1,5 @@
 import { ErrorMessageMode } from './types'
+import sys from './sys'
 
 /**
  * 对网络请求返回状态进行处理
@@ -15,43 +16,43 @@ export function checkStatus(
   let errMessage = ''
   switch (status) {
     case 400:
-      errMessage = msg || '网络请求参数错误，请联系管理员!'
+      errMessage = msg || sys.api.errMsg400
       break
     case 401:
-      errMessage = msg || '用户没有权限（令牌、用户名、密码错误）!'
+      errMessage = msg || sys.api.errMsg401
       break
     case 403:
-      errMessage = msg || '用户得到授权，但是访问是被禁止的。!'
+      errMessage = msg || sys.api.errMsg403
       break
     case 404:
-      errMessage = msg || '网络请求错误，未找到该资源!'
+      errMessage = msg || sys.api.errMsg404
       break
     case 405:
-      errMessage = msg || '网络请求错误，请求方法未允许!'
+      errMessage = msg || sys.api.errMsg405
       break
     case 408:
-      errMessage = msg || '网络请求超时!'
+      errMessage = msg || sys.api.errMsg408
       break
     case 500:
-      errMessage = msg || '服务器错误，请联系管理员!'
+      errMessage = msg || sys.api.errMsg500
       break
     case 501:
-      errMessage = msg || '网络未实现!'
+      errMessage = msg || sys.api.errMsg501
       break
     case 502:
-      errMessage = msg || '网络错误!'
+      errMessage = msg || sys.api.errMsg502
       break
     case 503:
-      errMessage = msg || '服务不可用，服务器暂时过载或维护!'
+      errMessage = msg || sys.api.errMsg503
       break
     case 504:
-      errMessage = msg || '网络超时!'
+      errMessage = msg || sys.api.errMsg504
       break
     case 505:
-      errMessage = msg || 'http版本不支持该请求!'
+      errMessage = msg || sys.api.errMsg505
       break
     default:
-      errMessage = '未知的网络错误，请联系管理员处理'
+      errMessage = sys.api.errMsgUnknown
   }
 
   return [errMessage, errorMessageMode]

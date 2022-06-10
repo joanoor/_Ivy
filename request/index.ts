@@ -10,8 +10,13 @@ import { IAxios } from './Axios'
 const defaultTransform: AxiosTransform = {
   transformRequestHook(res, options) {
     const { isTransformResponse, isReturnNativeResponse } = options
+    // 返回原生响应头
     if (isReturnNativeResponse) return res
+
+    // 不进行任何处理
     if (!isTransformResponse) return res.data
+
+    // 错误的时候
   },
 
   beforeRequestHook(config, options) {
@@ -114,7 +119,7 @@ export const createAxios = (opt?: Partial<CreateAxiosOptions>) => {
         requestOptions: {
           joinPrefix: false,
           isReturnNativeResponse: false,
-          isTransformResponse: true,
+          isTransformResponse: false,
           joinParamsToUrl: false,
           formatDate: true,
           errorMessageMode: 'message',
