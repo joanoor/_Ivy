@@ -1,55 +1,40 @@
-import axios from 'axios'
-import type { AxiosRequestConfig, Canceler } from 'axios'
-import { isFunction } from '../tools/is'
+import type { AxiosRequestConfig } from 'axios'
 
-let pendingMap = new Map<string, Canceler>()
+// let pendingMap = new Map<string, Canceler>()
+export let pendingMap = new Map<string, AbortController>()
+
 export const getPendingUrl = (config: AxiosRequestConfig) =>
   [config.method, config.url].join('&')
 
 export class AxiosCanceler {
-  /**
-   * 将request放入pendingMap中
-   * @param config
-   */
   addPending(config: AxiosRequestConfig) {
-    this.removePending(config)
-    const url = getPendingUrl(config)
-    config.cancelToken =
-      config.cancelToken ||
-      new axios.CancelToken(cancel => {
-        if (!pendingMap.has(url)) {
-          pendingMap.set(url, cancel)
-        }
-      })
+    this.removePending(config) // 重复的请求，则取消上一次请求
+    const pendingUrl = getPendingUrl(config)
+    const controller = new AbortController()
+    config.signal = config.signal || controller.signal
+    if (!pendingMap.has(pendingUrl)) {
+      pendingMap.set(pendingUrl, controller)
+    }
   }
 
-  /**
-   * 清空pendingMap中的全部request
-   */
   removeAllPending() {
-    pendingMap.forEach(cancel => {
-      cancel && isFunction(cancel) && cancel()
+    pendingMap.forEach(controller => {
+      controller && controller.abort()
     })
     pendingMap.clear()
   }
 
-  /**
-   * 删除pendingMap中指定的request
-   * @param config
-   */
   removePending(config: AxiosRequestConfig) {
-    const url = getPendingUrl(config)
-    if (pendingMap.has(url)) {
-      const cancel = pendingMap.get(url)
-      cancel && isFunction(cancel) && cancel()
-      pendingMap.delete(url)
+    const pendingUrl = getPendingUrl(config)
+
+    if (pendingMap.has(pendingUrl)) {
+      const controller = pendingMap.get(pendingUrl)
+      controller && controller.abort()
+      pendingMap.delete(pendingUrl)
     }
   }
 
-  /**
-   * 重置pendingMap
-   */
   reset() {
-    pendingMap = new Map<string, Canceler>()
+    pendingMap = new Map<string, AbortController>()
   }
 }

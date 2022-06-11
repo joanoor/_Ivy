@@ -98,8 +98,9 @@ export class IAxios {
       responseInterceptorsCatch,
     } = transform
 
-    // request拦截器(当接口请求没有出错时执行)
     const axiosCanceler = new AxiosCanceler()
+
+    // request拦截器(当接口请求没有出错时执行)
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
         const {
@@ -108,9 +109,11 @@ export class IAxios {
           headers: { ignoreCancelToken },
         } = config
 
+        // cloneConfig只是用于判断ignoreCancel
+        const cloneConfig: CreateAxiosOptions = cloneDeep(config)
         const ignoreCancel = ignoreCancelToken
           ? ignoreCancelToken
-          : this.options.requestOptions?.ignoreCancelToken
+          : cloneConfig.requestOptions?.ignoreCancelToken
 
         // 当ignoreCancel不为真的时候，将请求添加进pendingMap中
         !ignoreCancel && axiosCanceler.addPending(config)
@@ -253,7 +256,6 @@ export class IAxios {
     const transform = this.getTransform()
     const { requestOptions } = this.options
     const opt: RequestOptions = Object.assign({}, requestOptions, options)
-
     const { beforeRequestHook, requestCatchHook, transformRequestHook } =
       transform || {}
 

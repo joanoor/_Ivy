@@ -27,6 +27,12 @@ describe('测试helper模块方法', () => {
 
       formatRequestDate({ time: '1990-10-10' })
       expect(mock).toBeCalledTimes(2)
+
+      formatRequestDate({
+        time: {
+          now: '1990-10-10',
+        },
+      })
     })
 
     test('当参数不是对象的时候', () => {

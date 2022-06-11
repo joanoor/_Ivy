@@ -357,6 +357,6 @@ describe(`测试utils模块代码`, () => {
     const end = performance.now()
     expect(mockSleep).toBeCalledTimes(3)
     const differ = end - start
-    expect(utils.approximatelyEqual(differ, 3000, 50)).toBe(true)
+    expect(utils.approximatelyEqual(differ, 3000, 80)).toBe(true)
   })
 })

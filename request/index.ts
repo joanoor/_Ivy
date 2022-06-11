@@ -28,23 +28,23 @@ const defaultTransform: AxiosTransform = {
       joinTimestamp = true,
       urlPrefix,
     } = options
-    if (apiUrl && isString(apiUrl)) {
-      config.url = `${apiUrl}${config.url}`
-    }
     if (joinPrefix) {
       config.url = `${urlPrefix}${config.url}`
+    }
+
+    if (apiUrl && isString(apiUrl)) {
+      config.url = `${apiUrl}${config.url}`
     }
 
     const params = config.params || {}
     const data = config.data || false
     formatDate && data && !isString(data) && formatRequestDate(data)
+    // console.log('我看看', config)
+
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       if (!isString(params)) {
         // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-        config.params = Object.assign(
-          params || {},
-          addTimeStamp(joinTimestamp, false)
-        )
+        config.params = Object.assign(params || {}, addTimeStamp(joinTimestamp))
       } else {
         // 兼容restful风格
         config.url =
@@ -118,6 +118,7 @@ export const createAxios = (opt?: Partial<CreateAxiosOptions>) => {
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
           joinPrefix: false,
+          urlPrefix: '/prefix',
           isReturnNativeResponse: false,
           isTransformResponse: false,
           joinParamsToUrl: false,
