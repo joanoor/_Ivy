@@ -359,4 +359,49 @@ describe(`测试utils模块代码`, () => {
     const differ = end - start
     expect(utils.approximatelyEqual(differ, 3000, 80)).toBe(true)
   })
+
+  describe('getUrlQuery', () => {
+    test('测试hash模式', () => {
+      window.location.hash = '#/login?name=xixi'
+      const mockGetUrlParam = jest.spyOn(utils, 'getUrlQuery')
+      expect(utils.getUrlQuery()).toEqual({
+        name: 'xixi',
+      })
+      expect(mockGetUrlParam).toBeCalled()
+    })
+
+    test('测试history模式', () => {
+      const mockResponse = jest.fn()
+      Object.defineProperty(window, 'location', {
+        value: {
+          replace: mockResponse,
+        },
+        writable: true,
+      })
+      window.location.replace(
+        'http://www.baidu.com?__biz=MzAxODE4MTEzMA==&mid=2650078915&idx=1&sn=4bb48827bb32c7f859141d203fe7a90e&chksm=83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441&scene=21'
+      )
+      window.location.hash = '#/login?name=xixi'
+      window.location.search =
+        '?__biz=MzAxODE4MTEzMA==&mid=2650078915&idx=1&sn=4bb48827bb32c7f859141d203fe7a90e&chksm=83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441&scene=21'
+      const mockGetUrlParam = jest.spyOn(utils, 'getUrlQuery')
+
+      expect(utils.getUrlQuery('history')).toEqual({
+        __biz: 'MzAxODE4MTEzMA==',
+        mid: '2650078915',
+        idx: '1',
+        sn: '4bb48827bb32c7f859141d203fe7a90e',
+        chksm:
+          '83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441',
+        scene: '21',
+      })
+
+      expect(mockGetUrlParam).toBeCalledTimes(1)
+
+      window.location.replace('http://www.baidu.com')
+      window.location.search = ''
+      expect(utils.getUrlQuery('history')).toEqual({})
+      expect(mockGetUrlParam).toBeCalledTimes(2)
+    })
+  })
 })

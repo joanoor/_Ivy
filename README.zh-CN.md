@@ -202,3 +202,4 @@ const loginFormRules = reactive(_rules)
 * ```pickDuplicate``` - 查找数组中重复值的index
 * ```getDepth``` - 获取数组的最大深度（也就是获取数组的维度。因为至少都是一维数组，所以deep默认为1）
 * ```arrayToObject``` - 将数组按指定key转换成响应的对象
+* ```getUrlQuery``` - 获取当前URL中的query对象

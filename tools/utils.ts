@@ -1,3 +1,4 @@
+import qs from 'qs'
 import { isNumber, getTypeOfValue } from './is'
 
 export {
@@ -22,8 +23,9 @@ export {
   toFullScreen,
   exitFullscreen,
   openWindow,
-  sleep,
   approximatelyEqual,
+  sleep,
+  getUrlQuery,
 }
 interface Result<T> {
   code?: number
@@ -443,12 +445,16 @@ function chineseMoney(n: number) {
 function toFullScreen() {
   const element = document.body as any
   if (element.requestFullscreen) {
+    /* istanbul ignore next */
     element.requestFullscreen()
   } else if (element.mozRequestFullScreen) {
+    /* istanbul ignore next */
     element.mozRequestFullScreen()
   } else if (element.msRequestFullscreen) {
+    /* istanbul ignore next */
     element.msRequestFullscreen()
   } else if (element.webkitRequestFullscreen) {
+    /* istanbul ignore next */
     element.webkitRequestFullScreen()
   }
 }
@@ -458,12 +464,16 @@ function toFullScreen() {
  */
 function exitFullscreen() {
   if (document.exitFullscreen) {
+    /* istanbul ignore next */
     document.exitFullscreen()
   } else if (document.msExitFullscreen) {
+    /* istanbul ignore next */
     document.msExitFullscreen()
   } else if (document.mozCancelFullScreen) {
+    /* istanbul ignore next */
     document.mozCancelFullScreen()
   } else if (document.webkitExitFullscreen) {
+    /* istanbul ignore next */
     document.webkitExitFullscreen()
   }
 }
@@ -532,6 +542,21 @@ const approximatelyEqual = (v1: number, v2: number, epsilon = 0.001) =>
  * @returns
  */
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+/**
+ * 获取当前URL中的query对象
+ * @param type 默认是'hash'（适用于vue等单页面富应用）
+ * @returns
+ */
+const getUrlQuery = (type: 'hash' | 'history' = 'hash') => {
+  const paramHash = window.location.hash.split('?')[1] || '',
+    paramSearch = window.location.search.split('?')[1] || ''
+
+  let param = ''
+  type === 'hash' ? (param = paramHash) : (param = paramSearch)
+
+  return qs.parse(param)
+}
 
 /**
  * Merge the contents of two or more objects together into the first object.

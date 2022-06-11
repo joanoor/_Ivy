@@ -78,6 +78,7 @@ export class IAxios {
    */
   setHeader(headers: any) {
     if (!this.axiosInstance) {
+      /* istanbul ignore next */
       return
     } else {
       Object.assign(this.axiosInstance.defaults.headers, headers)

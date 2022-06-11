@@ -1,11 +1,5 @@
-import { createAxios } from '..'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import { IAxios } from '../Axios'
 import { AxiosCanceler } from '../axiosCancel'
 import { pendingMap } from '../axiosCancel'
-
-// const map = new Map<string, AbortController>()
 
 jest.mock('../axiosCancel', () => {
   const originalModule = jest.requireActual('../axiosCancel')
@@ -27,7 +21,6 @@ describe('测试AxiosCanceler模块', () => {
       method: 'GET',
     })
     expect(pendingMap.has('GET&/first')).toBe(true)
-    console.log('pendingMap', pendingMap)
   })
 
   test('测试清空pendingMap', () => {

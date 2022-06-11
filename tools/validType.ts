@@ -190,6 +190,7 @@ class Pattern {
       } else if (value.length > 1) {
         const ls = value.charCodeAt(i + 1)
         if (ls == 0x20e3) {
+          /* istanbul ignore next */
           return true
         }
       } else {

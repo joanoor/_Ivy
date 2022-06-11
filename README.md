@@ -216,3 +216,4 @@ const loginFormRules = reactive(_rules)
 * ```pickDuplicate``` - Find the index of duplicate values ​​in an array
 * ```getDepth``` - Get the maximum depth of the array (that is, get the dimension of the array. Because they are at least one-dimensional arrays, deep defaults to 1)
 * ```arrayToObject``` - Convert the array to the response object by the specified key
+* ```getUrlQuery``` - Get the query object in the current URL

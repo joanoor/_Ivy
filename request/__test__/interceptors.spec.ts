@@ -1,5 +1,4 @@
-import { AxiosResponse } from 'axios'
-import { checkStatus, createAxios, Result, ResultEnum } from '..'
+import { checkStatus, createAxios } from '..'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { IAxios } from '../Axios'

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   getTypeOfValue,
   isArray,
@@ -100,7 +99,7 @@ describe(`测试is模块`, () => {
 
   test('isFunction', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    expect(isFunction(() => { })).toBe(true)
+    expect(isFunction(() => {})).toBe(true)
     expect(isFunction(console.log)).toBe(true)
     expect(isFunction(test)).toBe(true)
     expect(isFunction(123)).not.toBe(true)
@@ -160,6 +159,4 @@ describe(`测试is模块`, () => {
     expect(getTypeOfValue([1, 2, 3])).toBe('array')
     expect(getTypeOfValue(new Map())).toBe('map')
   })
-
-  const t = Promise.resolve({})
 })

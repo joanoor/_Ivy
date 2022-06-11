@@ -120,4 +120,19 @@ describe('测试IAxios基础请求', () => {
     )
     expect(res.status).toBe(200)
   })
+
+  test('prefix请求', async () => {
+    mock.onGet('/prefix/join').reply(200)
+    const res = await http.get(
+      {
+        url: '/join',
+      },
+      {
+        joinPrefix: true,
+        isReturnNativeResponse: true,
+      }
+    )
+
+    expect(res.status).toBe(200)
+  })
 })

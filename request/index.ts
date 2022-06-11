@@ -44,9 +44,11 @@ const defaultTransform: AxiosTransform = {
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       if (!isString(params)) {
         // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        /* istanbul ignore next */
         config.params = Object.assign(params || {}, addTimeStamp(joinTimestamp))
       } else {
         // 兼容restful风格
+        /* istanbul ignore next */
         config.url =
           config.url + params + `${addTimeStamp(joinTimestamp, true)}`
         config.params = undefined
