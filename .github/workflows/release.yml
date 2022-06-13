@@ -4,7 +4,9 @@
 name: npm打包发布并自动release
 
 on: 
-  push: [release]
+  push: 
+    branches: 
+      - release
 
 jobs:
   build:
