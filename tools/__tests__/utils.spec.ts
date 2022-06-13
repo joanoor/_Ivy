@@ -1,4 +1,40 @@
 import * as utils from '../utils'
+// import fs from 'fs'
+// import path from 'path'
+/**
+ * 预备测试require.context
+ */
+// if (typeof require.context === 'undefined') {
+//   Object.defineProperty(require, 'context', {
+//     value: function (
+//       base = '.',
+//       scanSubDirectories = false,
+//       regularExpression = /\.(js|ts)$/
+//     ): Partial<__WebpackModuleApi.RequireContext> {
+//       const files = {}
+//       function readDirectory(directory) {
+//         fs.readdirSync(directory).forEach(file => {
+//           const fullPath = path.resolve(directory, file)
+//           if (fs.statSync(fullPath).isDirectory()) {
+//             if (scanSubDirectories) readDirectory(fullPath)
+//             return
+//           }
+
+//           if (!regularExpression.test(fullPath)) return
+//           files[fullPath] = true
+//         })
+//       }
+
+//       readDirectory(path.resolve(__dirname, base))
+//       function Module(file) {
+//         return require(file)
+//       }
+//       console.log('files', files)
+//       Module.keys = () => Object.keys(files)
+//       return Module
+//     },
+//   })
+// }
 
 describe(`测试utils模块代码`, () => {
   test('测试_console对象', () => {
@@ -371,21 +407,9 @@ describe(`测试utils模块代码`, () => {
     })
 
     test('测试history模式', () => {
-      const mockResponse = jest.fn()
-      Object.defineProperty(window, 'location', {
-        value: {
-          replace: mockResponse,
-        },
-        writable: true,
-      })
-      window.location.replace(
+      window.location.assign(
         'http://www.baidu.com?__biz=MzAxODE4MTEzMA==&mid=2650078915&idx=1&sn=4bb48827bb32c7f859141d203fe7a90e&chksm=83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441&scene=21'
       )
-      window.location.hash = '#/login?name=xixi'
-      window.location.search =
-        '?__biz=MzAxODE4MTEzMA==&mid=2650078915&idx=1&sn=4bb48827bb32c7f859141d203fe7a90e&chksm=83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441&scene=21'
-      const mockGetUrlParam = jest.spyOn(utils, 'getUrlQuery')
-
       expect(utils.getUrlQuery('history')).toEqual({
         __biz: 'MzAxODE4MTEzMA==',
         mid: '2650078915',
@@ -395,13 +419,32 @@ describe(`测试utils模块代码`, () => {
           '83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441',
         scene: '21',
       })
+    })
 
-      expect(mockGetUrlParam).toBeCalledTimes(1)
-
-      window.location.replace('http://www.baidu.com')
-      window.location.search = ''
+    test('测试参数为空', () => {
+      window.location.assign('http://www.baidu.com')
+      expect(utils.getUrlQuery()).toEqual({})
       expect(utils.getUrlQuery('history')).toEqual({})
-      expect(mockGetUrlParam).toBeCalledTimes(2)
     })
   })
+
+  // describe('再次测试sleep', () => {
+  //   beforeAll(() => {
+  //     jest.useFakeTimers
+  //   })
+
+  //   test('睡眠3000ms', async () => {
+  //     const callback = jest.fn()
+  //     const act = async (callback: () => void) => {
+  //       await utils.sleep(3000)
+  //       callback()
+  //     }
+
+  //     const promise = act(callback)
+  //     expect(callback).not.toHaveBeenCalled()
+  //     jest.runAllTimers()
+  //     await promise
+  //     expect(callback).toBeCalledTimes(1)
+  //   })
+  // })
 })

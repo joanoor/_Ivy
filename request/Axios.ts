@@ -275,10 +275,12 @@ export class IAxios {
               const ret = transformRequestHook(res, opt)
               resolve(ret)
             } catch (err) {
+              /* istanbul ignore next */
               reject(err || new Error('请求出错，请稍候重试'))
             }
             return
           }
+          /* istanbul ignore next */
           resolve(res as unknown as Promise<T>)
         })
         .catch((e: Error | AxiosError) => {

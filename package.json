@@ -44,6 +44,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
+    "jest-location-mock": "^1.0.9",
+    "jest-mock-console": "^2.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",
     "rollup": "^2.63.0",

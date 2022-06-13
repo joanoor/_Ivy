@@ -32,6 +32,7 @@ const defaultTransform: AxiosTransform = {
       config.url = `${urlPrefix}${config.url}`
     }
 
+    /* istanbul ignore if */
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`
     }
@@ -42,18 +43,18 @@ const defaultTransform: AxiosTransform = {
     // console.log('我看看', config)
 
     if (config.method?.toUpperCase() === RequestEnum.GET) {
+      /* istanbul ignore next */
       if (!isString(params)) {
         // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-        /* istanbul ignore next */
         config.params = Object.assign(params || {}, addTimeStamp(joinTimestamp))
       } else {
         // 兼容restful风格
-        /* istanbul ignore next */
         config.url =
           config.url + params + `${addTimeStamp(joinTimestamp, true)}`
         config.params = undefined
       }
     } else {
+      /* istanbul ignore else */
       if (!isString(params)) {
         formatDate && formatRequestDate(params)
         if (
@@ -68,6 +69,7 @@ const defaultTransform: AxiosTransform = {
           config.data = params
           config.params = undefined
         }
+        /* istanbul ignore if */
         if (joinParamsToUrl) {
           config.url = setObjToUrlParams(
             config.url as string,

@@ -92,17 +92,21 @@ const scrollToTop = (element: HTMLElement) => {
 }
 
 /**
- * webpack自动引入某一目录下js|ts文件或者样式文件
+ * webpack项目自动引入某一目录下js|ts文件或者样式文件
  * @param files require.context
  * @param typeName script 表示js文件，style 表示样式文件，mixin 表示全局混入
  * @param ignores 表示忽略的文件，哪些不需要自动引入的文件，写在这里
  */
+
+/**
+ *  @deprecated
+ */
+/* istanbul ignore next */
 function autoImport(
   files: __WebpackModuleApi.RequireContext,
-  typeName: string,
+  typeName: 'script' | 'style' | 'mixin',
   ignores?: string[]
-): any
-function autoImport(files, typeName, ignores) {
+): any {
   const result: unknown[] = []
   const funcObj: funcObject = {}
   files.keys().forEach(file => {
@@ -442,19 +446,19 @@ function chineseMoney(n: number) {
 /**
  * 打开浏览器全屏
  */
+/**
+ * @deprecated
+ */
+/* istanbul ignore next */
 function toFullScreen() {
   const element = document.body as any
   if (element.requestFullscreen) {
-    /* istanbul ignore next */
     element.requestFullscreen()
   } else if (element.mozRequestFullScreen) {
-    /* istanbul ignore next */
     element.mozRequestFullScreen()
   } else if (element.msRequestFullscreen) {
-    /* istanbul ignore next */
     element.msRequestFullscreen()
   } else if (element.webkitRequestFullscreen) {
-    /* istanbul ignore next */
     element.webkitRequestFullScreen()
   }
 }
@@ -462,18 +466,18 @@ function toFullScreen() {
 /**
  * 退出浏览器全屏
  */
+/**
+ * @deprecated
+ */
+/* istanbul ignore next */
 function exitFullscreen() {
   if (document.exitFullscreen) {
-    /* istanbul ignore next */
     document.exitFullscreen()
   } else if (document.msExitFullscreen) {
-    /* istanbul ignore next */
     document.msExitFullscreen()
   } else if (document.mozCancelFullScreen) {
-    /* istanbul ignore next */
     document.mozCancelFullScreen()
   } else if (document.webkitExitFullscreen) {
-    /* istanbul ignore next */
     document.webkitExitFullscreen()
   }
 }
@@ -485,6 +489,10 @@ function exitFullscreen() {
  * @param width
  * @param height
  */
+/**
+ * @deprecated
+ */
+/* istanbul ignore next */
 function openWindow(
   url: string,
   windowName: string,
