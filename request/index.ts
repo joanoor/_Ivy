@@ -40,7 +40,6 @@ const defaultTransform: AxiosTransform = {
     const params = config.params || {}
     const data = config.data || false
     formatDate && data && !isString(data) && formatRequestDate(data)
-    // console.log('我看看', config)
 
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       /* istanbul ignore next */

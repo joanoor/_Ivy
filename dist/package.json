@@ -1,11 +1,15 @@
 {
   "name": "ivy2",
   "version": "1.4.2",
-  "description": "",
+  "description": "Ivy2 is an open source project toolset. Can be used in Vue, React, Angular...",
   "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joanor/Ivy.git"
+  },
   "scripts": {
     "build": "rollup --config rollup.config.ts",
     "build:w": "rollup -c -w"
