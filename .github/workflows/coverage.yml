@@ -1,6 +1,6 @@
 name: 测试代码覆盖率
 
-on: ["push", "pull_request"]
+on: 
   push:
     branches: 
       - main
