@@ -8,7 +8,7 @@
       "@semantic-release/npm",
       {
         "pkgRoot": "dist",
-        "tarballDir": "dist"
+        "tarballDir": false
       }
     ],
     [
