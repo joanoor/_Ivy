@@ -87,6 +87,7 @@
   // ],
   "exclude": [
     "rollup.config.ts",
+    "jest.config.ts",
     "node_modules/**",
     "dist",
     "**/__tests__/*"
