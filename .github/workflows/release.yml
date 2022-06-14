@@ -11,7 +11,6 @@ on:
 jobs:
   release:
     name: 打包并发布到npmjs上
-    environment: release
     runs-on: ubuntu-latest
     steps:
       - name: 切换到runner上
