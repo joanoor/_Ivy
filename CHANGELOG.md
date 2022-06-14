@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/joanor/Ivy/compare/v1.4.5...v1.4.6) (2022-06-14)
+
+
+### Bug Fixes
+
+* 修改__test__为__tests__ ([39f67e4](https://github.com/joanor/Ivy/commit/39f67e4d4cf20860e3e1153e44c3b5f79fadea18))
+
 ## [1.4.5](https://github.com/joanor/Ivy/compare/v1.4.4...v1.4.5) (2022-06-14)
 
 
