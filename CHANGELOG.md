@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/joanor/Ivy/compare/v1.4.4...v1.4.5) (2022-06-14)
+
+
+### Bug Fixes
+
+* 过滤jest.config.ts ([93d972f](https://github.com/joanor/Ivy/commit/93d972f0ec42df193b11ce00ab5f923a9bf0cb47))
+
 ## [1.4.4](https://github.com/joanor/Ivy/compare/v1.4.3...v1.4.4) (2022-06-14)
 
 
