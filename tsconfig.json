@@ -3,8 +3,8 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     /* Basic Options */
     // "incremental": true,                         /* Enable incremental compilation */
-    "target": "es5", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
-    "module": "ESNEXT", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "target": "ES2015", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    // "module": "ESNEXT", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "lib": [
       "ESNEXT",
       "dom"
@@ -14,7 +14,7 @@
     // "jsx": "preserve",                           /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */
     "declaration": true, /* Generates corresponding '.d.ts' file. */
     "declarationDir": "./types",
-    "resolveJsonModule": true,
+    // "resolveJsonModule": true,
     // "declarationMap": true,                      /* Generates a sourcemap for each corresponding '.d.ts' file. */
     // "sourceMap": true,                           /* Generates corresponding '.map' file. */
     // "outFile": "./",                             /* Concatenate and emit output to single file. */
@@ -60,7 +60,7 @@
      https://www.typescriptlang.org/zh/tsconfig#types
      * 当"types"数组不为空的时候，只会自动引入在数组中的声明
      */
-    "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    // "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,                    /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,                /* Allow accessing UMD globals from modules. */
@@ -70,14 +70,14 @@
     // "inlineSourceMap": true,                     /* Emit a single file with source maps instead of having a separate file. */
     // "inlineSources": true,                       /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
     /* Experimental Options */
-    "experimentalDecorators": true, /* Enables experimental support for ES7 decorators. */
-    "emitDecoratorMetadata": true, /* Enables experimental support for emitting type metadata for decorators. */
+    // "experimentalDecorators": true, /* Enables experimental support for ES7 decorators. */
+    // "emitDecoratorMetadata": true, /* Enables experimental support for emitting type metadata for decorators. */
     /* Advanced Options */
     "skipLibCheck": true, /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
 
     /* 新增 */
-    "downlevelIteration": true
+    // "downlevelIteration": true
   },
   // "include": [
   //   "lib/**/*.ts",
@@ -86,7 +86,7 @@
   //   "env.d.ts"
   // ],
   "exclude": [
-    "rollup.config.ts",
+    "rollup.config.js",
     "jest.config.ts",
     "node_modules/**",
     "dist",

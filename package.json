@@ -7,7 +7,7 @@
   "umd": "dist/ivy2.umd.js",
   "types": "dist/ivy2.d.ts",
   "files": [
-    "dist/*.js"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "scripts": {
     "test": "jest",
     "test:coverall": "jest --coverage && coveralls < coverage/lcov.info",
-    "build": "rollup --config rollup.config.ts",
+    "build": "rollup --config rollup.config.js",
     "build:w": "rollup -c -w"
   },
   "keywords": [],

@@ -369,7 +369,7 @@ function toThousands(n: number) {
 function arrScrambling<T>(arr: T[]): T[] {
   for (let i = 0; i < arr.length; i++) {
     const randomIndex = Math.round(Math.random() * (arr.length - 1 - i)) + i
-    ;[arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]]
+      ;[arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]]
   }
   return arr
 }
@@ -518,18 +518,19 @@ function openWindow(
       url,
       'ZyiisPopup',
       'top=' +
-        y +
-        ',left=' +
-        x +
-        ',scrollbars=' +
-        scrollbars +
-        ',dialog=yes,modal=yes,width=' +
-        width +
-        ',height=' +
-        height +
-        ',resizable=no'
+      y +
+      ',left=' +
+      x +
+      ',scrollbars=' +
+      scrollbars +
+      ',dialog=yes,modal=yes,width=' +
+      width +
+      ',height=' +
+      height +
+      ',resizable=no'
     )
-    eval('try { win.resizeTo(width, height); } catch(e) { }')
+    new Function('try { win.resizeTo(width, height); } catch(e) { }')()
+    // eval('try { win.resizeTo(width, height); } catch(e) { }')
     win ? win.focus() : ''
   }
 }

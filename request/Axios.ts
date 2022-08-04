@@ -11,7 +11,7 @@ import { AxiosCanceler } from './axiosCancel'
 import { cloneDeep } from 'lodash-es'
 import { ContentTypeEnum, RequestEnum, RequestOptions, Result } from './types'
 import { isFunction } from '../tools/is'
-import { UploadFileParams } from './types'
+// import { UploadFileParams } from './types'
 
 /**
  * 封装axios

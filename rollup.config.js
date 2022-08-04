@@ -33,19 +33,20 @@ export default defineConfig([
         file: resolveFile(pkg.main),
         format: 'cjs',
       },
-      {
-        file: resolveFile(pkg.umd),
-        format: `umd`,
-        name: 'ivy2',
-      },
+      // {
+      //   file: resolveFile(pkg.umd),
+      //   format: `umd`,
+      //   name: 'ivy2',
+      //   globals: 'ivy2',
+      // },
     ],
     external: [
       /@babel\/runtime-corejs3/,
-      /echarts/,
-      /axios/,
-      /qs/,
-      /async-validator/,
-      /element-resize-detector/,
+      'echarts',
+      'axios',
+      'qs',
+      'async-validator',
+      'element-resize-detector',
     ],
     plugins: [
       // peerDepsExternal({
@@ -54,7 +55,7 @@ export default defineConfig([
       // peerDepsExternal(),
 
       commonjs(),
-      nodeResolve({ browser: true }),
+      nodeResolve(),
       typescript({
         abortOnError: true,
         useTsconfigDeclarationDir: true,
