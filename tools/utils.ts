@@ -26,6 +26,7 @@ export {
   approximatelyEqual,
   sleep,
   getUrlQuery,
+  getBrowserInfo,
 }
 interface Result<T> {
   code?: number
@@ -565,6 +566,55 @@ const getUrlQuery = (type: 'hash' | 'history' = 'hash') => {
   type === 'hash' ? (param = paramHash) : (param = paramSearch)
 
   return qs.parse(param)
+}
+
+/**
+ * 获取浏览器版本信息
+ * @returns
+ */
+/* istanbul ignore next */
+function getBrowserInfo() {
+  const agent = navigator.userAgent.toLowerCase()
+  // var regStr_ie = /msie [\d.]+;/gi;
+  const regStrFF = /firefox\/[\d.]+/gi
+  const regStrChrome = /chrome\/[\d.]+/gi
+  const regStrSaf = /safari\/[\d.]+/gi
+  const isIE = agent.indexOf('compatible') > -1 && agent.indexOf('msie') > -1 // 判断是否IE<11浏览器
+  const isEdge = agent.indexOf('edge') > -1 && !isIE // 判断是否IE的Edge浏览器
+  const isIE11 = agent.indexOf('trident') > -1 && agent.indexOf('rv:11.0') > -1
+  if (isIE) {
+    const reIE = new RegExp('msie (\\d+\\.\\d+);')
+    reIE.test(agent)
+    // eslint-disable-next-line
+    var fIEVersion = parseFloat(RegExp['$1'])
+    if (fIEVersion * 1 === 7) {
+      return 'IE/7'
+    } else if (fIEVersion * 1 === 8) {
+      return 'IE/8'
+    } else if (fIEVersion * 1 === 9) {
+      return 'IE/9'
+    } else if (fIEVersion * 1 === 10) {
+      return 'IE/10'
+    }
+  } // isIE end
+  if (isIE11) {
+    return 'IE/11'
+  }
+  if (isEdge) {
+    return 'IE/edge'
+  }
+  // firefox
+  if (agent.indexOf('firefox') > 0) {
+    return agent.match(regStrFF)
+  }
+  // Safari
+  if (agent.indexOf('safari') > 0 && agent.indexOf('chrome') < 0) {
+    return agent.match(regStrSaf)
+  }
+  // Chrome
+  if (agent.indexOf('chrome') > 0) {
+    return agent.match(regStrChrome)
+  }
 }
 
 /**

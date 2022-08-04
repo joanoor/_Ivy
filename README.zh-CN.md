@@ -196,6 +196,7 @@ const loginFormRules = reactive(_rules)
 * ```openWindow``` - 打开一个新的浏览器窗体
 * ```approximatelyEqual``` - 检查两个数字是否大致相等
 * ```sleep``` - sleep函数的js实现
+* ```getBrowserInfo``` - 获取浏览器信息
 
 &nbsp;&nbsp;&nbsp;&nbsp;🎯 数据操纵
 * ```pickDuplicate``` - 查找数组中重复值的index

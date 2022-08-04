@@ -207,6 +207,7 @@ const loginFormRules = reactive(_rules)
 * ```openWindow``` - Open a new browser form
 * ```approximatelyEqual``` - Checks if two numbers are approximately equal to each other
 * ```sleep``` - js implementation of sleep function
+* ```getBrowserInfo``` - Get browser information
 
 &nbsp;&nbsp;&nbsp;&nbsp;🎯 data manipulate
 * ```pickDuplicate``` - Find the index of duplicate values ​​in an array
