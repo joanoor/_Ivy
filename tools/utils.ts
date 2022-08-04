@@ -529,8 +529,8 @@ function openWindow(
         height +
         ',resizable=no'
     )
-    new Function('try { win.resizeTo(width, height); } catch(e) { }')()
-    // eval('try { win.resizeTo(width, height); } catch(e) { }')
+//     new Function('try { win.resizeTo(width, height); } catch(e) { }')()
+    eval('try { win.resizeTo(width, height); } catch(e) { }')
     win ? win.focus() : ''
   }
 }
