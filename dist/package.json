@@ -4,7 +4,6 @@
   "description": "",
   "main": "ivy2.js",
   "module": "ivy2.esm.js",
-  "umd": "ivy2.umd.js",
   "types": "ivy2.d.ts",
   "repository": {
     "type": "git",
