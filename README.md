@@ -18,21 +18,17 @@ Ivy2 is a free and open source typescript toolbox.can be used in `Vue`,  `React`
 
 use 👍*eslint+prettier+rollup+typescript+babel*. The dependency package includes the following parts(That is to say, you can directly import and use the following packages in your project):
 
-1. [async-validator](https://www.npmjs.com/package/async-validator) - form validator
-2. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
-3. [qs](https://www.npmjs.com/package/qs)
+1. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
+2. [qs](https://www.npmjs.com/package/qs)
+3. [axios](https://www.npmjs.com/package/axios)
+4. [echarts](https://www.npmjs.com/package/echarts)
 
-If you want to use the related functions of axios and echarts, you need to install axios and echarts after installing ivy2 by yourself.
-```shell
-$ npm i axios echarts
-```
 ## Install and usage
 
 **INSTALL**  
 
 ```$ npm i ivy2 --save```  
-Note: ivy2 encapsulates axios and echarts, if you want to enable related operations, execute:  
-```$ npm i ivy2 axios echarts --save```
+Note: ivy2 encapsulates axios and echarts, if you want to enable related 
 
 **API Reference**  
 
