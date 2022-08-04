@@ -13,7 +13,7 @@ Ivy2是一个自由开源的typescript工具集，可以在流行的web框架`Vu
 
 ## 特点
 
-采用技术栈 👍*eslint+prettier+rollup+typescript+babel*打包生成。依赖包包括如下部分（也就是说你可以直接在项目中引入并使用下列包）：
+采用技术栈 👍*eslint+prettier+rollup+typescript+babel*打包生成。所包含依赖如下（也就是说你可以直接在项目中引入并使用下列包）：
 
 1. [element-resize-detector](https://www.npmjs.com/package/element-resize-detector)
 2. [qs](https://www.npmjs.com/package/qs)
