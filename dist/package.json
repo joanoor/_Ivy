@@ -1,14 +1,14 @@
 {
   "name": "ivy2",
-  "version": "1.4.7",
+  "version": "1.5.2",
   "description": "",
   "main": "ivy2.js",
   "module": "ivy2.esm.js",
-  "umd": "ivy2.umd.js",
   "types": "ivy2.d.ts",
-  "files": [
-    "dist"
-  ],
+  "exports": {
+    "import": "./ivy2.esm.js",
+    "require": "./ivy2.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/joanor/Ivy.git"
