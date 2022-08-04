@@ -6,9 +6,6 @@
   "module": "ivy2.esm.js",
   "umd": "ivy2.umd.js",
   "types": "ivy2.d.ts",
-  "files": [
-    "dist"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/joanor/Ivy.git"
