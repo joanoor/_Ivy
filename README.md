@@ -4,7 +4,7 @@
   <!-- ![GitHub](https://img.shields.io/github/license/joanor/Ivy?style=plastic)  -->
   ![GitHub](https://img.shields.io/github/license/joanor/Ivy) 
   [![Coverage Status](https://coveralls.io/repos/github/joanor/Ivy/badge.svg?branch=master)](https://coveralls.io/github/joanor/Ivy?branch=master)
-
+  [![build](https://github.com/joanor/Ivy/actions/workflows/release.yml/badge.svg)](https://github.com/joanor/Ivy/actions/workflows/release.yml)
   </h1>
 </div>
 

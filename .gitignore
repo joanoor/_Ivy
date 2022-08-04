@@ -1,6 +1,5 @@
 node_modules
-dist/**/*.ts
-dist/**/*.js
+dist
 coverage/
 *.html
 *.zip

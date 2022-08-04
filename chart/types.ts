@@ -1,4 +1,40 @@
-import type { BarSeriesOption, XAXisComponentOption } from 'echarts'
+import type {
+  EChartsOption,
+  BarSeriesOption,
+  XAXisComponentOption,
+} from 'echarts'
+
+type SeriesType =
+  | 'vbar'
+  | 'hbar'
+  | 'pictorialBar'
+  | 'pie'
+  | 'pie_m'
+  | 'line'
+  | 'scatter'
+  | 'map'
+  | 'scatter-map'
+  | 'sankey'
+  | 'radar'
+  | 'funnel'
+  | 'gauge'
+  | 'polarBar'
+  | 'sunburst'
+  | 'wordCloud'
+
+type EchartOpt<T extends string = SeriesType> = {
+  [P in T]: EChartsOption
+}
+
+interface CreateConfig {
+  type?: SeriesType
+  theme?: ThemeOpt
+  isRealRefresh?: boolean
+  moreOpt?: MoreOpt
+}
+// interface EchartOpt{
+//   [P in ]
+// }
 
 // echarts主题
 interface ThemeOpt {
@@ -34,4 +70,7 @@ export {
   AxisLabelOption,
   AxisLineOption,
   AxisPointerOption,
+  // customize
+  EchartOpt,
+  CreateConfig,
 }
