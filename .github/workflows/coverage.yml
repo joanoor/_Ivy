@@ -3,11 +3,11 @@ name: 测试代码覆盖率
 on: 
   push:
     branches: 
-      - main
+      - master
   
   pull_request:
     branches: 
-      - main
+      - master
 
 jobs:
 
