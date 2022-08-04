@@ -11,7 +11,7 @@ setObjToUrlParams, randomHexColorCode, hexToRGB, RGBToHex, toThousands, arrScram
 randomString, // generate a random string of specified length 生成随机指定长度的字符串
 fistLetterUpper, strToAsterisk, // add an asterisk in the middle of the string
 chineseMoney, // convert numeric amounts to Chinese capitalized amounts 金额转换成中文大写金额
-toFullScreen, exitFullscreen, openWindow, approximatelyEqual, sleep, getUrlQuery, };
+toFullScreen, exitFullscreen, openWindow, approximatelyEqual, sleep, getUrlQuery, getBrowserInfo, };
 interface Console<T = string> {
     log: (str: T) => void;
     warn: (str: T) => void;
@@ -180,6 +180,11 @@ declare const sleep: (ms: number) => Promise<unknown>;
  * @returns
  */
 declare const getUrlQuery: (type?: 'hash' | 'history') => qs.ParsedQs;
+/**
+ * 获取浏览器版本信息
+ * @returns
+ */
+declare function getBrowserInfo(): RegExpMatchArray | "IE/7" | "IE/8" | "IE/9" | "IE/10" | "IE/11" | "IE/edge" | null | undefined;
 /**
  * Merge the contents of two or more objects together into the first object.
  * 暂时没有用上
