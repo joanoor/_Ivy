@@ -13,6 +13,7 @@ import filesize from 'rollup-plugin-filesize'
 import { terser } from 'rollup-plugin-terser'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
 import { visualizer } from 'rollup-plugin-visualizer'
+import dts from 'rollup-plugin-dts'
 import path from 'path'
 const resolveFile = filePath => path.join(__dirname, filePath)
 import { resolve } from 'path'
@@ -20,46 +21,66 @@ import { resolve } from 'path'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require('./package.json')
 
-export default defineConfig({
-  input: resolveFile('./index.ts'),
-  output: [
-    {
-      file: resolveFile(pkg.main),
-      format: 'esm',
-      name: 'ivy2',
-    },
-  ],
-  external: [
-    /@babel\/runtime-corejs3/,
-    /echarts/,
-    /axios/,
-    /qs/,
-    /async-validator/,
-    /element-resize-detector/,
-  ],
-  plugins: [
-    // peerDepsExternal({
-    //   includeDependencies: true,
-    // }),
-    // peerDepsExternal(),
+export default defineConfig([
+  {
+    input: resolveFile('./index.ts'),
+    output: [
+      {
+        file: resolveFile(pkg.module),
+        format: 'es',
+      },
+      {
+        file: resolveFile(pkg.main),
+        format: 'cjs',
+      },
+      {
+        file: resolveFile(pkg.umd),
+        format: `umd`,
+        name: 'ivy2',
+      },
+    ],
+    external: [
+      /@babel\/runtime-corejs3/,
+      /echarts/,
+      /axios/,
+      /qs/,
+      /async-validator/,
+      /element-resize-detector/,
+    ],
+    plugins: [
+      // peerDepsExternal({
+      //   includeDependencies: true,
+      // }),
+      // peerDepsExternal(),
 
-    commonjs(),
-    nodeResolve({ browser: true }),
-    typescript({
-      abortOnError: true,
-      useTsconfigDeclarationDir: true,
-    }),
-    babel({
-      babelHelpers: 'runtime',
-      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-      configFile: resolve(__dirname, 'babel.config.cjs'),
-    }),
-    terser(),
-    filesize(),
-    visualizer({
-      filename: 'visualizer.html',
-      gzipSize: true,
-      brotliSize: true,
-    }),
-  ],
-})
+      commonjs(),
+      nodeResolve({ browser: true }),
+      typescript({
+        abortOnError: true,
+        useTsconfigDeclarationDir: true,
+      }),
+      babel({
+        babelHelpers: 'runtime',
+        extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
+        configFile: resolve(__dirname, 'babel.config.cjs'),
+      }),
+      terser(),
+      filesize(),
+      visualizer({
+        filename: 'visualizer.html',
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ],
+  },
+  {
+    input: resolveFile('./types/index.d.ts'),
+    output: [
+      {
+        file: 'dist/ivy2.d.ts',
+        format: 'es',
+      },
+    ],
+    plugins: [dts()],
+  },
+])
