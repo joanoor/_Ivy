@@ -1,3 +1,10 @@
+## [1.4.7](https://github.com/joanor/Ivy/compare/v1.4.6...v1.4.7) (2022-08-04)
+
+
+### Bug Fixes
+
+* 添加getBrowserInfo方法；rollup.config.js配置中的错误 ([9366e67](https://github.com/joanor/Ivy/commit/9366e67e0c71727b05b512112650367f04376537))
+
 ## [1.4.6](https://github.com/joanor/Ivy/compare/v1.4.5...v1.4.6) (2022-06-14)
 
 
