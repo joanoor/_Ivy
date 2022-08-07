@@ -173,6 +173,11 @@ const loginFormRules = reactive(_rules)
   ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;🐉 其它：
+* ```debounce```  - 创建一个 debounced（防抖动）函数，同lodash
+* ```throttle```  - 创建一个节流函数，同lodash
+* ```cloneDeep```  - 深度拷贝，同lodash
+* ```omit```  - 创建一个由忽略属性之外的属性所组成的对象，同lodash
+* ```pick```  - 创建一个从 object 中选中的属性的组成的对象，同lodash
 * ```_console```  - 预定义四种console.log的颜色
 * ```scrollToTop``` - 指定容器的滚动条平滑滚动回最上面
 * ```autoImport``` - 当项目采用wepack时，使用此方法可以自动引入某一目录下js或ts文件或者样式文件

@@ -184,6 +184,11 @@ const loginFormRules = reactive(_rules)
   ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;🐉 others:
+* ```debounce```  - Create a debounced function, same as lodash
+* ```throttle```  - Create a throttle function, same as lodash
+* ```cloneDeep```  - deep copy, same as lodash
+* ```omit```  - Creates an object consisting of properties other than ignored properties, same as lodash
+* ```pick```  - Creates an object consisting of selected properties from object, same as lodash
 * ```_console```  - Predefined four console.log colors
 * ```scrollToTop``` - The scroll bar of the specified container scrolls back to the top smoothly
 * ```autoImport``` - When the project adopts wepack, use this method to automatically import js or ts files or style files in a certain directory

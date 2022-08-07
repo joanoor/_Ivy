@@ -1,7 +1,13 @@
 import qs from 'qs'
 import { isNumber, getTypeOfValue } from './is'
+import { debounce, throttle, cloneDeep, omit, pick } from 'lodash-es'
 
 export {
+  debounce,
+  throttle,
+  cloneDeep,
+  omit,
+  pick,
   _console, // print colorfull
   scrollToTop, // scroll to top
   autoImport, // auto import module with webpack
@@ -530,7 +536,7 @@ function openWindow(
         height +
         ',resizable=no'
     )
-//     new Function('try { win.resizeTo(width, height); } catch(e) { }')()
+    //     new Function('try { win.resizeTo(width, height); } catch(e) { }')()
     eval('try { win.resizeTo(width, height); } catch(e) { }')
     win ? win.focus() : ''
   }
