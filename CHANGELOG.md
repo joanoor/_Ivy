@@ -1,3 +1,10 @@
+## [1.4.8](https://github.com/joanor/Ivy/compare/v1.4.7...v1.4.8) (2022-08-07)
+
+
+### Bug Fixes
+
+* **同步版本:** 增加lodash中的常用方法 ([0115cc7](https://github.com/joanor/Ivy/commit/0115cc74cc44db729f5af76cb84907c28ae2df9e))
+
 ## [1.4.7](https://github.com/joanor/Ivy/compare/v1.4.6...v1.4.7) (2022-08-04)
 
 
