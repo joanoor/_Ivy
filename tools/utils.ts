@@ -1,6 +1,6 @@
 import qs from 'qs'
 import { isNumber, getTypeOfValue } from './is'
-import { debounce, throttle, cloneDeep, omit, pick } from 'lodash-es'
+import { debounce, throttle, cloneDeep, omit, pick, random } from 'lodash-es'
 
 export {
   debounce,
@@ -8,6 +8,7 @@ export {
   cloneDeep,
   omit,
   pick,
+  random,
   _console, // print colorfull
   scrollToTop, // scroll to top
   autoImport, // auto import module with webpack

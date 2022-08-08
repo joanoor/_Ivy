@@ -178,6 +178,7 @@ const loginFormRules = reactive(_rules)
 * ```cloneDeep```  - 深度拷贝，同lodash
 * ```omit```  - 创建一个由忽略属性之外的属性所组成的对象，同lodash
 * ```pick```  - 创建一个从 object 中选中的属性的组成的对象，同lodash
+* ```random```  - 产生一个包括 lower 与 upper 之间的数，如果只提供一个参数返回一个0到提供数之间的数。同lodash
 * ```_console```  - 预定义四种console.log的颜色
 * ```scrollToTop``` - 指定容器的滚动条平滑滚动回最上面
 * ```autoImport``` - 当项目采用wepack时，使用此方法可以自动引入某一目录下js或ts文件或者样式文件
