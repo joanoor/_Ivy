@@ -1,3 +1,10 @@
+## [1.5.4](https://github.com/joanor/Ivy/compare/v1.5.3...v1.5.4) (2022-08-08)
+
+
+### Bug Fixes
+
+* **random:** 新增random函数，同lodash；发布新版本，同步版本与tag ([5bbd17b](https://github.com/joanor/Ivy/commit/5bbd17b6ebdab202c03d3a4a2b8f6992f8d726af))
+
 ## [1.4.8](https://github.com/joanor/Ivy/compare/v1.4.7...v1.4.8) (2022-08-07)
 
 
