@@ -22,18 +22,7 @@ export abstract class AxiosTransform {
     options: RequestOptions
   ) => AxiosRequestConfig
 
-  /**
-   * 发生在统一拦截之后，当请求接口成功时执行
-   */
-  transformRequestHook?: <T = Result>(
-    res: AxiosResponse<T>,
-    options: RequestOptions
-  ) => any
-
-  /**
-   * 发生在统一拦截之后，当请求失败时执行
-   */
-  requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>
+  /***********************************************************************/
 
   /**
    * request统一拦截器
@@ -61,4 +50,19 @@ export abstract class AxiosTransform {
    * 当http网络请求失败（网络响应状态代码status不是200），不论接口是否正常返回数据，都会执行此方法。
    */
   responseInterceptorsCatch?: (error: AxiosResponse) => void
+
+  /***********************************************************************/
+
+  /**
+   * 发生在统一拦截之后，当请求接口成功时执行
+   */
+  transformRequestHook?: <T = Result>(
+    res: AxiosResponse<T>,
+    options: RequestOptions
+  ) => any
+
+  /**
+   * 发生在统一拦截之后，当请求失败时执行
+   */
+  requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>
 }
