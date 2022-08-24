@@ -135,7 +135,7 @@ export class IAxios {
         requestInterceptorsCatch
       )
 
-    // response拦截器(当接口返回没有出错时执行)
+    // response拦截器(当http网络正常，且接口返回code也正常时执行)
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
       res && axiosCanceler.removePending(res.config)
       if (responseInterceptors && isFunction(responseInterceptors)) {
@@ -144,7 +144,7 @@ export class IAxios {
       return res
     }, undefined)
 
-    // response拦截器(当接口返回出错时执行)
+    // response拦截器(当http网络出错时执行)
     responseInterceptorsCatch &&
       isFunction(responseInterceptorsCatch) &&
       this.axiosInstance.interceptors.response.use(

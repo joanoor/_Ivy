@@ -15,7 +15,7 @@ export interface CreateAxiosOptions extends AxiosRequestConfig {
  */
 export abstract class AxiosTransform {
   /**
-   * 在请求发出前执行
+   * 发生在统一拦截之前，在请求发出前执行
    */
   beforeRequestHook?: (
     config: AxiosRequestConfig,
@@ -23,7 +23,7 @@ export abstract class AxiosTransform {
   ) => AxiosRequestConfig
 
   /**
-   * 在请求成功时执行
+   * 发生在统一拦截之后，当请求接口成功时执行
    */
   transformRequestHook?: <T = Result>(
     res: AxiosResponse<T>,
@@ -31,12 +31,12 @@ export abstract class AxiosTransform {
   ) => any
 
   /**
-   * 在请求失败时执行
+   * 发生在统一拦截之后，当请求失败时执行
    */
   requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>
 
   /**
-   * request拦截器
+   * request统一拦截器
    */
   requestInterceptors?: (
     config: AxiosRequestConfig,
@@ -44,18 +44,21 @@ export abstract class AxiosTransform {
   ) => AxiosRequestConfig
 
   /**
-   * response拦截器
+   * response统一拦截器
+   *
+   * 当http网络请求正常，接口正常返回数据（不论接口返回的状态码是不是正常的成功码）时，执行此方法。
    */
-  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>
+  responseInterceptors?: (res: AxiosResponse) => AxiosResponse
 
   /**
-   * request拦截器对错误进行处理
+   * request统一拦截器，对request错误进行处理
    */
   requestInterceptorsCatch?: (error: Error) => void
 
   /**
-   * response拦截器对错误进行处理
-   * 拦截的是网络错误，如果网络请求状态码status正常，没有错误。而且只是返回的code不是正常的200，则拦截不到。需要在responseInterceptors中进行处理
+   * response统一拦截器，对http网络错误进行处理
+   *
+   * 当http网络请求失败（网络响应状态代码status不是200），不论接口是否正常返回数据，都会执行此方法。
    */
-  responseInterceptorsCatch?: (error: Error) => void
+  responseInterceptorsCatch?: (error: AxiosResponse) => void
 }

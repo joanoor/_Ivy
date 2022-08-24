@@ -8,15 +8,13 @@ import { IAxios } from './Axios'
 
 // transform的默认值
 const defaultTransform: AxiosTransform = {
-  transformRequestHook(res, options) {
+  transformRequestHook(nativeResponse, options) {
     const { isTransformResponse, isReturnNativeResponse } = options
     // 返回原生响应头
-    if (isReturnNativeResponse) return res
+    if (isReturnNativeResponse) return nativeResponse
 
-    // 不进行任何处理
-    if (!isTransformResponse) return res.data
-
-    // 错误的时候
+    // 对数据不进行任何处理，直接返回
+    if (!isTransformResponse) return nativeResponse.data
   },
 
   beforeRequestHook(config, options) {
@@ -84,15 +82,11 @@ const defaultTransform: AxiosTransform = {
     return config
   },
 
-  requestInterceptors(config, options) {
-    return config
-  },
-
   /**
-   * response拦截器
+   * 默认的response拦截器
    */
-  responseInterceptors: (res: AxiosResponse<any>) => {
-    return res
+  responseInterceptors: response => {
+    return response
   },
 }
 
