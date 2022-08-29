@@ -1,4 +1,3 @@
-import type { AxiosResponse } from 'axios'
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
 import { deepMerge, setObjToUrlParams } from '../tools/utils'
 import { isString } from '../tools/is'
