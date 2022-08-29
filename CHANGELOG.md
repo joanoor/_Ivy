@@ -1,3 +1,10 @@
+## [1.5.6](https://github.com/joanor/Ivy/compare/v1.5.5...v1.5.6) (2022-08-29)
+
+
+### Bug Fixes
+
+* **优化:** 一些优化 ([eb29f67](https://github.com/joanor/Ivy/commit/eb29f6739bb2505b35b9c9392a686e55e0914fc8))
+
 ## [1.5.5](https://github.com/joanor/Ivy/compare/v1.5.4...v1.5.5) (2022-08-24)
 
 
