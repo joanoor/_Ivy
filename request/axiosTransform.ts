@@ -1,7 +1,7 @@
 /**
  * 对请求的数据进行处理
  */
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { RequestOptions, Result } from './types'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
@@ -49,7 +49,7 @@ export abstract class AxiosTransform {
    *
    * 当http网络请求失败（网络响应状态代码status不是200），不论接口是否正常返回数据，都会执行此方法。
    */
-  responseInterceptorsCatch?: (error: AxiosResponse) => void
+  responseInterceptorsCatch?: (error: AxiosError) => any
 
   /***********************************************************************/
 
