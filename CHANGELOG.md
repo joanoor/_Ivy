@@ -1,3 +1,10 @@
+## [1.5.5](https://github.com/joanor/Ivy/compare/v1.5.4...v1.5.5) (2022-08-24)
+
+
+### Bug Fixes
+
+* **合并代码:** 修改axios相关代码 ([0398379](https://github.com/joanor/Ivy/commit/03983791a7dfe8296894f4ea2c3c3f6c7e85e365))
+
 ## [1.5.4](https://github.com/joanor/Ivy/compare/v1.5.3...v1.5.4) (2022-08-08)
 
 
