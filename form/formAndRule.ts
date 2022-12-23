@@ -47,7 +47,7 @@ function optFactory(
   // 第一步：确定提供的数据中，是否存在重复的label
   const dupLabelObjs = baseStructs.filter(v => v.label === optLabel)
 
-  // 说明提供的是label，不在提供的数据中
+  // 说明提供的label，不在提供的数据中
   if (dupLabelObjs.length === 0) {
     return {}
   }

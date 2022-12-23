@@ -52,7 +52,7 @@ export function checkStatus(
       errMessage = msg || sys.api.errMsg505
       break
     default:
-      errMessage = sys.api.errMsgUnknown
+      errMessage = msg || sys.api.errMsgUnknown
   }
 
   return [errMessage, errorMessageMode]

@@ -34,6 +34,7 @@ export {
   sleep,
   getUrlQuery,
   getBrowserInfo,
+  toFixed
 }
 interface Result<T> {
   code?: number
@@ -137,8 +138,12 @@ function autoImport(
       }
     } else if (typeName === fileType.ISMIXINS) {
       /* 自动混入全局（专用于vue） */
-      const _tmp: string = file.split('/').slice(-2)[0]
-      if (!ignores || ignores.indexOf(_tmp) !== -1) {
+      const fileName: string =
+        file
+          ?.split('/')
+          ?.pop()
+          ?.replace(/\.\w+$/, '') ?? ''
+      if (!ignores || ignores.indexOf(fileName) === -1) {
         result.push(files(file)?.default || files(file))
       }
     }
@@ -566,7 +571,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
  * @returns
  */
 const getUrlQuery = (type: 'hash' | 'history' = 'hash') => {
-  const paramHash = window.location.hash.split('?')[1] || '',
+  const paramHash = window.location.hash.split('#')[1] || '', 
     paramSearch = window.location.search.split('?')[1] || ''
 
   let param = ''
@@ -622,6 +627,11 @@ function getBrowserInfo() {
   if (agent.indexOf('chrome') > 0) {
     return agent.match(regStrChrome)
   }
+}
+
+
+function toFixed(num: number) {
+  return (Math.round(num*100)/100).toFixed(2)
 }
 
 /**
