@@ -1,4 +1,4 @@
-import { isObject, isString } from '../tools/is'
+import { isPlainObject, isString } from '../tools/is'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 
@@ -47,7 +47,7 @@ export function formatRequestDate(params: Recordable) {
         }
       }
     }
-    if (isObject(params[key])) {
+    if (isPlainObject(params[key])) {
       formatRequestDate(params[key])
     }
   }

@@ -397,20 +397,21 @@ describe(`测试utils模块代码`, () => {
   })
 
   describe('getUrlQuery', () => {
-    test('测试hash模式', () => {
-      window.location.hash = '#/login?name=xixi'
-      const mockGetUrlParam = jest.spyOn(utils, 'getUrlQuery')
-      expect(utils.getUrlQuery()).toEqual({
-        name: 'xixi',
-      })
-      expect(mockGetUrlParam).toBeCalled()
-    })
+    // test('测试hash模式', () => {
+    //   window.location.hash = '#/login?name=xixi'
+    //   const mockGetUrlParam = jest.spyOn(utils, 'getUrlQuery')
+    //   console.log(`你你你你你`, utils.getUrlQuery())
+    //   expect(utils.getUrlQuery()).toEqual({
+    //     name: 'xixi',
+    //   })
+    //   expect(mockGetUrlParam).toBeCalled()
+    // })
 
-    test('测试history模式', () => {
+    test('测试获取浏览器地址栏中的query', () => {
       window.location.assign(
         'http://www.baidu.com?__biz=MzAxODE4MTEzMA==&mid=2650078915&idx=1&sn=4bb48827bb32c7f859141d203fe7a90e&chksm=83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441&scene=21'
       )
-      expect(utils.getUrlQuery('history')).toEqual({
+      expect(utils.getUrlQuery()).toEqual({
         __biz: 'MzAxODE4MTEzMA==',
         mid: '2650078915',
         idx: '1',
@@ -419,14 +420,27 @@ describe(`测试utils模块代码`, () => {
           '83da63a6b4adeab096481f1b46de1f45426496d51291598b6ba005b64720029bc52917fba441',
         scene: '21',
       })
+
+      window.location.assign(
+        'http://112.26.166.156:8090/login#/index?redirect=%2Fhome'
+      )
+      expect(utils.getUrlQuery()).toEqual({
+        redirect: '/home',
+      })
     })
 
     test('测试参数为空', () => {
       window.location.assign('http://www.baidu.com')
       expect(utils.getUrlQuery()).toEqual({})
-      expect(utils.getUrlQuery('history')).toEqual({})
     })
   })
+
+  // describe('textSize', () => {
+  //   test('测试字符串的css宽度', () => {
+  //     expect(utils.textSize('我爱你', '32px').width).toEqual(96)
+  //     expect(utils.textSize('你好啊啊啊啊').width).toEqual(84)
+  //   })
+  // })
 
   // describe('再次测试sleep', () => {
   //   beforeAll(() => {

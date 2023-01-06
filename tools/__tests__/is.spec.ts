@@ -13,7 +13,7 @@ import {
   isNull,
   isNullOrUnDef,
   isNumber,
-  isObject,
+  isPlainObject,
   isPromise,
   isRegExp,
   isServer,
@@ -49,11 +49,11 @@ describe(`测试is模块`, () => {
     expect(isArray(0)).not.toBe(true)
   })
 
-  test('isObject: Test if value is a object', () => {
-    expect(isObject({})).toBe(true)
-    expect(isObject(new Date())).not.toBe(true)
-    expect(isObject(null)).not.toBe(true)
-    expect(isObject({ a: 1 })).toBe(true)
+  test('isPlainObject: Test if value is a object', () => {
+    expect(isPlainObject({})).toBe(true)
+    expect(isPlainObject(new Date())).not.toBe(true)
+    expect(isPlainObject(null)).not.toBe(true)
+    expect(isPlainObject({ a: 1 })).toBe(true)
   })
 
   test('isDate', () => {

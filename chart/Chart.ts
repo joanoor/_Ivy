@@ -18,7 +18,7 @@ export class IChart {
   /**
    * 初始化echart对象
    * @param el 传进来的dom对象
-   * @param isRealRefresh 是否实时刷新，当接口实时返回数据，实时跟新图表的时候，可以设置为true
+   * @param isRealRefresh 是否实时刷新chart，当通过接口实时返回数据，实时更新图表的时候，可以设置为true，否则设置为false
    * @param theme 主题
    */
   private initChart(el: HTMLElement, isRealRefresh = false, theme?: ThemeOpt) {

@@ -142,7 +142,7 @@ const loginFormRules = reactive(_rules)
 * ```isNumber```
 * ```isBoolean```
 * ```isArray```
-* ```isObject```
+* ```isPlainObject```
 * ```isDate```
 * ```isRegExp```
 * ```isWindow```

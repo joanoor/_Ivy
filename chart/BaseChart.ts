@@ -33,22 +33,29 @@ const legend: LegendComponentOption = {
 }
 
 // 笛卡尔坐标轴下图表的间距
-const grid: GridComponentOption = {
-  containLabel: true, // 区域是否包含坐标轴的刻度标签。
-  left: '32',
-  top: '35', // 上部需要放置坐标轴名称和图例
-  bottom: '75', // 下边会有拖动轴
-  right: '32',
+export const setGrid = (grid: GridComponentOption): GridComponentOption => {
+  return {
+    containLabel: true, // 区域是否包含坐标轴的刻度标签。
+    left: '32',
+    top: '35', // 上部需要放置坐标轴名称和图例
+    bottom: '75', // 下边会有拖动轴
+    right: '32',
+    ...grid
+  }
 }
 
 // 坐标轴刻度相关
-const axisTick: AxisTickOption = {
-  show: true,
-  interval: 'auto',
-  length: 5,
-  alignWithLabel: true,
-  inside: false, // true 刻度线朝内，false 刻度线朝外
+export const setAxisTick = (axisTick: AxisTickOption): AxisTickOption => {
+  return {
+    show: true,
+    interval: 'auto',
+    length: 5,
+    alignWithLabel: true,
+    inside: false, // true 刻度线朝内，false 刻度线朝外
+    ...axisTick
+  }
 }
+
 
 const axisLabel: AxisLabelOption = {
   // 函数参数分别为刻度数值（类目），刻度的索引
@@ -66,7 +73,6 @@ const textStyle = {
 const xAxis: XAXisComponentOption = {
   type: 'category',
   data: [],
-  axisTick,
   splitLine: {
     show: true,
   },
@@ -120,7 +126,6 @@ const BaseChart: EchartOpt = {
         //   show: true
         // }
       },
-      hoverAnimation: false,
     },
   },
   line: {},
