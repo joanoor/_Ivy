@@ -2,7 +2,7 @@
  * dm(data manipulate: 数据操纵)
  */
 
-import { isEqual, flatten } from 'lodash-es'
+import { isEqual, flatten, cloneDeep } from 'lodash-es'
 import { isArray, isNumber, isString } from './is'
 
 export class DM {
@@ -91,5 +91,44 @@ export class DM {
       obj[item[key]] = item
     }
     return obj
+  }
+
+   changeToTree  (
+    d: Recordable[],
+    key = 'id',
+    pkey = 'parentId'
+  ) {
+    const ckey = 'children'
+    const data = cloneDeep(d)
+    let flag = false // 字段保证顺序是否变化
+    if (!key || !data) return []
+  
+    let tree:any[] = []
+    const names: string[] = []
+    const parents: Recordable = {}
+    data.forEach(item => {
+      names.push(item[key] + '_')
+      // 父类相同的分类
+      parents[item[pkey] + '_'] = parents[item[pkey] + '_'] || []
+      parents[item[pkey] + '_'].push(item)
+    })
+    data.forEach(item => {
+      if (parents[item[key] + '_'] && item[pkey] !== item[key]) {
+        flag = true
+        item[ckey] = [...parents[item[key] + '_']]
+      }
+    })
+    // 保证顺序不能变(前提是：没有子节点)
+    if (flag) {
+      // 获取根节点
+      for (const keyName in parents) {
+        if (names.indexOf(keyName) < 0) {
+          tree.push(...parents[keyName])
+        }
+      }
+    } else {
+      tree = cloneDeep(data)
+    }
+    return tree
   }
 }

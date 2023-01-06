@@ -34,12 +34,8 @@ export {
   sleep,
   getUrlQuery,
   getBrowserInfo,
-  toFixed
-}
-interface Result<T> {
-  code?: number
-  message?: string
-  data?: T
+  toFixed,
+  textSize
 }
 
 interface funcObject {
@@ -570,14 +566,9 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
  * @param type 默认是'hash'（适用于vue等单页面富应用）
  * @returns
  */
-const getUrlQuery = (type: 'hash' | 'history' = 'hash') => {
-  const paramHash = window.location.hash.split('#')[1] || '', 
-    paramSearch = window.location.search.split('?')[1] || ''
-
-  let param = ''
-  type === 'hash' ? (param = paramHash) : (param = paramSearch)
-
-  return qs.parse(param)
+const getUrlQuery = () => {
+  const paramHash = (window.location.href.split('?')[1] || '')
+  return qs.parse(paramHash)
 }
 
 /**
@@ -634,6 +625,27 @@ function toFixed(num: number) {
   return (Math.round(num*100)/100).toFixed(2)
 }
 
+/* istanbul ignore next */
+function textSize(text: string, fontSize = '') {
+  const span = document.createElement('span')
+  const result = {
+    width: span.offsetWidth,
+    height: span.offsetHeight,
+  }
+  span.style.visibility = 'hidden'
+  span.style.fontSize = fontSize || '14px'
+  document.body.appendChild(span)
+
+  if (typeof span.textContent != 'undefined') span.textContent = text || ''
+  else span.innerText = text || ''
+
+  result.width = span.offsetWidth - result.width
+  result.height = span.offsetHeight - result.height
+  span.parentNode && span.parentNode.removeChild(span)
+  return result
+}
+
+
 /**
  * Merge the contents of two or more objects together into the first object.
  * 暂时没有用上
@@ -647,7 +659,7 @@ function toFixed(num: number) {
 //       acc = target[key]
 //       copy = src[i][key]
 //       if (target === copy) continue
-//       if (copy && isObject(copy)) {
+//       if (copy && isPlainObject(copy)) {
 //         clone = acc && isArray(acc) ? acc : {}
 //         target[key] = merge(clone, copy)
 //       } else if (copy !== undefined) {

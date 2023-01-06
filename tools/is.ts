@@ -15,7 +15,7 @@ export const isBoolean = (val: unknown): val is boolean =>
 
 export const isArray = (val: any): val is Array<any> => Array.isArray(val)
 
-export const isObject = (val: unknown): val is Record<any, any> =>
+export const isPlainObject = (val: unknown): val is Record<any, any> =>
   getTypeOfValue(val) === 'object'
 
 export const isDate = (val: unknown): val is Date =>
@@ -28,7 +28,7 @@ export const isWindow = (val: unknown): val is Window =>
   typeof window !== 'undefined' && getTypeOfValue(val) === 'window'
 
 export const isElement = <T = unknown>(val: T): val is T =>
-  // isObject(val) && !!val.tagName
+  // isPlainObject(val) && !!val.tagName
   isDomElement(val)
 
 export const isMap = (val: unknown): val is Map<any, any> =>
@@ -65,7 +65,7 @@ export const isEmpty = <T = unknown>(val: T): boolean => {
   if (val instanceof Map || val instanceof Set) {
     return val.size === 0
   }
-  if (isObject(val)) {
+  if (isPlainObject(val)) {
     return Object.keys(val).length === 0
   }
   return false
