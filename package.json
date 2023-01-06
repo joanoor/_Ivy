@@ -1,6 +1,6 @@
 {
   "name": "ivy2",
-  "version": "1.4.7",
+  "version": "1.5.7",
   "description": "",
   "main": "dist/ivy2.js",
   "module": "dist/ivy2.esm.js",

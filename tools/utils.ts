@@ -35,7 +35,7 @@ export {
   getUrlQuery,
   getBrowserInfo,
   toFixed,
-  textSize
+  // textSize
 }
 
 interface funcObject {
@@ -626,24 +626,24 @@ function toFixed(num: number) {
 }
 
 /* istanbul ignore next */
-function textSize(text: string, fontSize = '') {
-  const span = document.createElement('span')
-  const result = {
-    width: span.offsetWidth,
-    height: span.offsetHeight,
-  }
-  span.style.visibility = 'hidden'
-  span.style.fontSize = fontSize || '14px'
-  document.body.appendChild(span)
+// function textSize(text: string, fontSize = '') {
+//   const span = document.createElement('span')
+//   const result = {
+//     width: span.offsetWidth,
+//     height: span.offsetHeight,
+//   }
+//   span.style.visibility = 'hidden'
+//   span.style.fontSize = fontSize || '14px'
+//   document.body.appendChild(span)
 
-  if (typeof span.textContent != 'undefined') span.textContent = text || ''
-  else span.innerText = text || ''
+//   if (typeof span.textContent != 'undefined') span.textContent = text || ''
+//   else span.innerText = text || ''
 
-  result.width = span.offsetWidth - result.width
-  result.height = span.offsetHeight - result.height
-  span.parentNode && span.parentNode.removeChild(span)
-  return result
-}
+//   result.width = span.offsetWidth - result.width
+//   result.height = span.offsetHeight - result.height
+//   span.parentNode && span.parentNode.removeChild(span)
+//   return result
+// }
 
 
 /**
