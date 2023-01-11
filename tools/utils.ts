@@ -35,7 +35,8 @@ export {
   getUrlQuery,
   getBrowserInfo,
   toFixed,
-  // textSize
+  textSize,
+  strRandom,
 }
 
 interface funcObject {
@@ -567,7 +568,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
  * @returns
  */
 const getUrlQuery = () => {
-  const paramHash = (window.location.href.split('?')[1] || '')
+  const paramHash = window.location.href.split('?')[1] || ''
   return qs.parse(paramHash)
 }
 
@@ -620,31 +621,33 @@ function getBrowserInfo() {
   }
 }
 
-
 function toFixed(num: number) {
-  return (Math.round(num*100)/100).toFixed(2)
+  return (Math.round(num * 100) / 100).toFixed(2)
 }
 
 /* istanbul ignore next */
-// function textSize(text: string, fontSize = '') {
-//   const span = document.createElement('span')
-//   const result = {
-//     width: span.offsetWidth,
-//     height: span.offsetHeight,
-//   }
-//   span.style.visibility = 'hidden'
-//   span.style.fontSize = fontSize || '14px'
-//   document.body.appendChild(span)
+function textSize(text: string, fontSize = '') {
+  const span = document.createElement('span')
+  const result = {
+    width: span.offsetWidth,
+    height: span.offsetHeight,
+  }
+  span.style.visibility = 'hidden'
+  span.style.fontSize = fontSize || '14px'
+  document.body.appendChild(span)
 
-//   if (typeof span.textContent != 'undefined') span.textContent = text || ''
-//   else span.innerText = text || ''
+  if (typeof span.textContent != 'undefined') span.textContent = text || ''
+  else span.innerText = text || ''
 
-//   result.width = span.offsetWidth - result.width
-//   result.height = span.offsetHeight - result.height
-//   span.parentNode && span.parentNode.removeChild(span)
-//   return result
-// }
+  result.width = span.offsetWidth - result.width
+  result.height = span.offsetHeight - result.height
+  span.parentNode && span.parentNode.removeChild(span)
+  return result
+}
 
+function strRandom(n = 6) {
+  return Math.random().toString(36).slice(-n)
+}
 
 /**
  * Merge the contents of two or more objects together into the first object.
