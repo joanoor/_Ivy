@@ -1,3 +1,10 @@
+## [1.5.7](https://github.com/joanor/Ivy/compare/v1.5.6...v1.5.7) (2023-01-11)
+
+
+### Bug Fixes
+
+* 🐛 完善utils ([d66975d](https://github.com/joanor/Ivy/commit/d66975d73fae10a95b2bf96f625a66550e1986b4))
+
 ## [1.5.6](https://github.com/joanor/Ivy/compare/v1.5.5...v1.5.6) (2022-08-29)
 
 
